@@ -1,38 +1,40 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/react': ^18.0.21
-  '@types/react-dom': ^18.0.6
+  '@types/react': ^18.0.23
+  '@types/react-dom': ^18.0.7
   '@types/three': ^0.144.0
   '@vitejs/plugin-react': ^2.1.0
   autoprefixer: ^10.4.12
   convert-csv-to-json: ^1.3.3
+  csvtojson: ^2.0.10
   postcss: ^8.4.18
   prettier: ^2.7.1
   prettier-plugin-tailwindcss: ^0.1.13
   react: ^18.2.0
   react-dom: ^18.2.0
-  tailwindcss: ^3.2.0
+  tailwindcss: ^3.2.1
   three: ^0.145.0
   typescript: ^4.8.4
   vite: ^3.1.8
 
 dependencies:
-  convert-csv-to-json: 1.3.3
+  csvtojson: 2.0.10
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   three: 0.145.0
 
 devDependencies:
-  '@types/react': 18.0.21
-  '@types/react-dom': 18.0.6
+  '@types/react': 18.0.23
+  '@types/react-dom': 18.0.7
   '@types/three': 0.144.0
   '@vitejs/plugin-react': 2.1.0_vite@3.1.8
   autoprefixer: 10.4.12_postcss@8.4.18
+  convert-csv-to-json: 1.3.3
   postcss: 8.4.18
   prettier: 2.7.1
   prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
-  tailwindcss: 3.2.0_postcss@8.4.18
+  tailwindcss: 3.2.1_postcss@8.4.18
   typescript: 4.8.4
   vite: 3.1.8
 
@@ -386,14 +388,14 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
 
-  /@types/react-dom/18.0.6:
-    resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
+  /@types/react-dom/18.0.7:
+    resolution: {integrity: sha512-HaXc+BbqAZE1RdsK3tC8SbkFy6UL2xF76lT9rQs5JkPrJg3rWA3Ou/Lhw3YJQzEDkBpmJ79nBsfnd05WrBd2QQ==}
     dependencies:
-      '@types/react': 18.0.21
+      '@types/react': 18.0.23
     dev: true
 
-  /@types/react/18.0.21:
-    resolution: {integrity: sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==}
+  /@types/react/18.0.23:
+    resolution: {integrity: sha512-R1wTULtCiJkudAN2DJGoYYySbGtOdzZyUWAACYinKdiQC8auxso4kLDUhQ7AJ2kh3F6A6z4v69U6tNY39hihVQ==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -491,6 +493,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /bluebird/3.7.2:
+    resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
+    dev: false
+
   /braces/3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
     engines: {node: '>=8'}
@@ -558,7 +564,7 @@ packages:
 
   /convert-csv-to-json/1.3.3:
     resolution: {integrity: sha512-lIQrCmEw0GCywtVWeJ/AGv5hhSTPsMFdqOf9GcMtActqO2Gt8z1RZgfw9NBOll479cIPM6BqDOFC8R3W7bSwtA==}
-    dev: false
+    dev: true
 
   /convert-source-map/1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
@@ -573,6 +579,16 @@ packages:
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
     dev: true
+
+  /csvtojson/2.0.10:
+    resolution: {integrity: sha512-lUWFxGKyhraKCW8Qghz6Z0f2l/PqB1W3AO0HKJzGIQ5JRSlR651ekJDiGJbBT4sRNNv5ddnSGVEnsxP9XRCVpQ==}
+    engines: {node: '>=4.0.0'}
+    hasBin: true
+    dependencies:
+      bluebird: 3.7.2
+      lodash: 4.17.21
+      strip-bom: 2.0.0
+    dev: false
 
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -938,6 +954,10 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
+  /is-utf8/0.2.1:
+    resolution: {integrity: sha512-rMYPYvCzsXywIsldgLaSoPlw5PfoB/ssr7hY4pLfcodrA5M/eArza1a9VmTiNIBNMjOGr1Ow9mTyU2o69U6U9Q==}
+    dev: false
+
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -957,6 +977,10 @@ packages:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -1213,6 +1237,13 @@ packages:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     dev: true
 
+  /strip-bom/2.0.0:
+    resolution: {integrity: sha512-kwrX1y7czp1E69n2ajbG65mIo9dqvJ+8aBQXOGVxqwvNbsXdFM6Lq37dLAY3mknUwru8CfcCbfOLL/gMo+fi3g==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-utf8: 0.2.1
+    dev: false
+
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
@@ -1225,8 +1256,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /tailwindcss/3.2.0_postcss@8.4.18:
-    resolution: {integrity: sha512-ARh/W0uH5UlWIC2nn02V0+5fyF0k6qZliyt4QYic2upOhPUE/Spu1EURNc9txJ3+4j8OEmdigqfDpw4d2tA4vA==}
+  /tailwindcss/3.2.1_postcss@8.4.18:
+    resolution: {integrity: sha512-Uw+GVSxp5CM48krnjHObqoOwlCt5Qo6nw1jlCRwfGy68dSYb/LwS9ZFidYGRiM+w6rMawkZiu1mEMAsHYAfoLg==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     peerDependencies:
@@ -1242,6 +1273,7 @@ packages:
       glob-parent: 6.0.2
       is-glob: 4.0.3
       lilconfig: 2.0.6
+      micromatch: 4.0.5
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.0
