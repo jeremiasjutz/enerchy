@@ -8,9 +8,15 @@ import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("enerchy") as HTMLElement).render(
   <React.StrictMode>
-    <Canvas>
+    <Canvas
+      camera={{
+        position: [0, 0, 1],
+        near: 0.001,
+      }}
+    >
       <OrbitControls />
       <ambientLight />
+      <axesHelper />
       <App />
     </Canvas>
   </React.StrictMode>

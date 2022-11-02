@@ -7,6 +7,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const filePathCsv = join(__dirname, "csv");
+const filePathProductionPlantsJson = join(
+  __dirname,
+  "..",
+  "..",
+  "src",
+  "assets"
+);
 const filePathTranslationsJson = join(
   __dirname,
   "..",
@@ -49,7 +56,7 @@ async function createProductionPlantsJsonFile() {
 
   try {
     await writeFile(
-      `${__dirname}/productionPlants.json`,
+      `${filePathProductionPlantsJson}/productionPlants.json`,
       JSON.stringify(dataArray)
     );
     console.info("productionPlants.json written successfully");
