@@ -16,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("enerchy") as HTMLElement).render(
     >
       <OrbitControls />
       <ambientLight />
+      <axesHelper />
       <App />
     </Canvas>
   </React.StrictMode>

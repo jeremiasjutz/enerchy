@@ -1,10 +1,10 @@
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Euler, Mesh } from "three";
+import { Mesh } from "three";
 
 import { ASPECT_SWITZERLAND, SIZE } from "./constants";
-import generateHeatmapData from "./heatmap";
+import generateHeatmapVertexValues from "./heatmap";
 
 export default function App() {
   const mesh = useRef<Mesh>(null);
@@ -13,14 +13,14 @@ export default function App() {
 
   useFrame(() => {
     if (mesh.current && !isVerticesSet.current) {
-      const array = generateHeatmapData();
+      const vertexValues = generateHeatmapVertexValues();
 
       const { geometry } = mesh.current;
       const { position } = geometry.attributes;
 
       for (let index = 0; index < position.count; index++) {
         // @ts-ignore
-        position.array[index * 3 + 2] = array[index];
+        position.array[index * 3 + 2] = vertexValues[index] * 0.05;
       }
       isVerticesSet.current = true;
     }
@@ -28,7 +28,8 @@ export default function App() {
 
   return (
     <>
-      <mesh ref={mesh} rotation={new Euler(-Math.PI / 3, 0, 0)}>
+      <directionalLight color={0xffffff} />
+      <mesh ref={mesh} rotation={[-Math.PI / 3, 0, 0]}>
         <planeGeometry
           args={[
             1,
@@ -37,7 +38,7 @@ export default function App() {
             SIZE * ASPECT_SWITZERLAND - 1,
           ]}
         />
-        <meshBasicMaterial map={texture} wireframe />
+        <meshStandardMaterial flatShading />
       </mesh>
     </>
   );
