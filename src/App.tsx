@@ -1,79 +1,23 @@
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import { Mesh } from "three";
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 
-import { ASPECT_SWITZERLAND, BOUNDARIES, SIZE } from "./constants";
-import { linearInterpolation } from "./utils/interpolations";
-import productionPlants from "./assets/productionPlants.json";
-import generateHeatmapVertexValues from "./heatmap";
-import { ProductionPlant } from "./types";
+import Enerchy from "./components/Enerchy";
 
 export default function App() {
-  const mesh = useRef<Mesh>(null);
-  const isVerticesSet = useRef(false);
-
-  useFrame(() => {
-    if (mesh.current && !isVerticesSet.current) {
-      console.time("generateHeatmapVertexValues");
-      const vertexValues = generateHeatmapVertexValues({
-        array: generatePowerValueArray(),
-      });
-      console.timeEnd("generateHeatmapVertexValues");
-
-      const { geometry } = mesh.current;
-      const { position } = geometry.attributes;
-
-      for (let index = 0; index < position.count; index++) {
-        // @ts-ignore
-        position.array[index * 3 + 2] = vertexValues[index] * 0.05;
-      }
-      isVerticesSet.current = true;
-    }
-  });
-
   return (
     <>
-      <directionalLight color={0xffffff} />
-      <mesh ref={mesh} rotation={[-Math.PI / 3, 0, 0]}>
-        <planeGeometry
-          args={[
-            1,
-            ASPECT_SWITZERLAND,
-            SIZE - 1,
-            SIZE * ASPECT_SWITZERLAND - 1,
-          ]}
-        />
-        <meshStandardMaterial flatShading />
-      </mesh>
+      <div>Hello</div>
+      <Canvas
+        camera={{
+          position: [0, 0, 1],
+          near: 0.001,
+        }}
+      >
+        <OrbitControls />
+        <ambientLight />
+        <axesHelper />
+        <Enerchy />
+      </Canvas>
     </>
   );
-}
-
-function generatePowerValueArray(inputArraySize = 100) {
-  const inputArray = Array.from(
-    Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
-    () => new Array(inputArraySize).fill(0)
-  );
-
-  for (const [east, north, kWh] of productionPlants as ProductionPlant[]) {
-    if (false || (kWh > 0 && kWh < 1000)) {
-      const indexX = Math.round(
-        linearInterpolation({
-          number: east,
-          inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
-          outputRange: [0, inputArraySize - 1],
-        })
-      );
-      const indexY = Math.round(
-        linearInterpolation({
-          number: north,
-          inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
-          outputRange: [0, Math.round(inputArraySize * ASPECT_SWITZERLAND) - 1],
-        })
-      );
-
-      inputArray[indexY][indexX] = Math.max(inputArray[indexY][indexX], kWh);
-    }
-  }
-  return inputArray;
 }
