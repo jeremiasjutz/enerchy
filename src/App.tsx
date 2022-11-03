@@ -1,19 +1,24 @@
-import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Mesh } from "three";
 
-import { ASPECT_SWITZERLAND, SIZE } from "./constants";
+import { ASPECT_SWITZERLAND, BOUNDARIES, SIZE } from "./constants";
+import { linearInterpolation } from "./utils/interpolations";
+import productionPlants from "./assets/productionPlants.json";
 import generateHeatmapVertexValues from "./heatmap";
+import { ProductionPlant } from "./types";
 
 export default function App() {
   const mesh = useRef<Mesh>(null);
   const isVerticesSet = useRef(false);
-  const texture = useTexture("/switzerland.png");
 
   useFrame(() => {
     if (mesh.current && !isVerticesSet.current) {
-      const vertexValues = generateHeatmapVertexValues();
+      console.time("generateHeatmapVertexValues");
+      const vertexValues = generateHeatmapVertexValues({
+        array: generatePowerValueArray(),
+      });
+      console.timeEnd("generateHeatmapVertexValues");
 
       const { geometry } = mesh.current;
       const { position } = geometry.attributes;
@@ -42,4 +47,33 @@ export default function App() {
       </mesh>
     </>
   );
+}
+
+function generatePowerValueArray(inputArraySize = 100) {
+  const inputArray = Array.from(
+    Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
+    () => new Array(inputArraySize).fill(0)
+  );
+
+  for (const [east, north, kWh] of productionPlants as ProductionPlant[]) {
+    if (false || (kWh > 0 && kWh < 1000)) {
+      const indexX = Math.round(
+        linearInterpolation({
+          number: east,
+          inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
+          outputRange: [0, inputArraySize - 1],
+        })
+      );
+      const indexY = Math.round(
+        linearInterpolation({
+          number: north,
+          inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
+          outputRange: [0, Math.round(inputArraySize * ASPECT_SWITZERLAND) - 1],
+        })
+      );
+
+      inputArray[indexY][indexX] = Math.max(inputArray[indexY][indexX], kWh);
+    }
+  }
+  return inputArray;
 }
