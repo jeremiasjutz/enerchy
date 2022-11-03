@@ -6,16 +6,24 @@ import Enerchy from "./components/Enerchy";
 export default function App() {
   return (
     <>
-      <div>Hello</div>
       <Canvas
+        className="bg-black"
         camera={{
           position: [0, 0, 1],
           near: 0.001,
+          far: 10,
         }}
       >
-        <OrbitControls />
+        <OrbitControls
+          minPolarAngle={0.25}
+          maxPolarAngle={Math.PI - 0.25}
+          minAzimuthAngle={-Math.PI / 2.5}
+          maxAzimuthAngle={Math.PI / 2.5}
+          minDistance={0.1}
+          maxDistance={1}
+        />
         <ambientLight />
-        <axesHelper />
+        {/* <axesHelper /> */}
         <Enerchy />
       </Canvas>
     </>

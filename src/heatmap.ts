@@ -7,7 +7,6 @@ export default function generateHeatmapVertexValues({
   array: any[][];
   outputArrayRowSize?: number;
 }) {
-  const copy = [...array];
   const rows = array.length;
   const cols = array[0].length;
   const numberOfNeighborsToConsider = 2;
@@ -20,19 +19,20 @@ export default function generateHeatmapVertexValues({
   let maxZ = 0;
 
   const outputArray = Array.from(Array(outputArrayRowSize), () =>
-    new Array(outputArrayColumnSize).fill(0)
+    new Array(outputArrayColumnSize).fill({ value: 0 })
   );
 
   for (let y = 0; y < outputArrayRowSize; y++) {
     for (let x = 0; x < outputArrayColumnSize; x++) {
       let z = 0;
+      let subCat;
       const i0 = ~~(y / outputArrayScaleFactor) - numberOfNeighborsToConsider;
       const j0 = ~~(x / outputArrayScaleFactor) - numberOfNeighborsToConsider;
       for (let i = i0; i <= i0 + 2 * numberOfNeighborsToConsider; i++) {
         for (let j = j0; j <= j0 + 2 * numberOfNeighborsToConsider; j++) {
           if (i >= 0 && i < rows && j >= 0 && j < cols) {
-            if (copy[i][j] > 0) {
-              const n = copy[i][j];
+            if (array[i][j].value > 0) {
+              const n = array[i][j].value;
               const jx =
                 j * outputArrayScaleFactor + halfOutputArrayScaleFactor;
               const iy =
@@ -40,14 +40,17 @@ export default function generateHeatmapVertexValues({
               const xPart = Math.pow(2, -k * Math.pow(x - jx, 2));
               const yPart = Math.pow(2, -k * Math.pow(y - iy, 2));
               z += n * xPart * yPart;
+              subCat = array[i][j].subCat;
             }
           }
         }
       }
       if (z > maxZ) maxZ = z;
-      outputArray[outputArrayRowSize - y - 1][x] = z;
+      outputArray[outputArrayRowSize - y - 1][x] = { value: z, subCat };
     }
   }
 
-  return outputArray.flat().map((number) => number / maxZ);
+  return outputArray
+    .flat()
+    .map((entry) => ({ ...entry, value: entry.value / maxZ }));
 }

@@ -1,39 +1,61 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Mesh } from "three";
+import { Color, DoubleSide, Float32BufferAttribute, Mesh } from "three";
+import { useControls } from "leva";
 
 import { ASPECT_SWITZERLAND, BOUNDARIES, SIZE } from "../constants";
 import generateHeatmapVertexValues from "../heatmap";
 import productionPlants from "../assets/productionPlants.json";
 import { ProductionPlant } from "../types";
 import { linearInterpolation } from "../utils/interpolations";
+import { useTexture } from "@react-three/drei";
 
 export default function Enerchy() {
   const mesh = useRef<Mesh>(null);
   const isVerticesSet = useRef(false);
-
+  const switzerlandTexture = useTexture("/switzerland-outline.png");
+  const { opacity, isMapVisible } = useControls({
+    opacity: 1,
+    isMapVisible: false,
+  });
   useFrame(() => {
     if (mesh.current && !isVerticesSet.current) {
-      console.time("generateHeatmapVertexValues");
+      const color = new Color();
+      const colors: number[] = [];
       const vertexValues = generateHeatmapVertexValues({
         array: generatePowerValueArray(),
       });
-      console.timeEnd("generateHeatmapVertexValues");
 
       const { geometry } = mesh.current;
-      const { position } = geometry.attributes;
+      for (let index = 0; index < geometry.attributes.position.count; index++) {
+        const value = vertexValues[index].value * (1 / 20);
 
-      for (let index = 0; index < position.count; index++) {
-        // @ts-ignore
-        position.array[index * 3 + 2] = vertexValues[index] * 0.05;
+        geometry.attributes.position.setZ(index, value);
+        color.setHSL(
+          // @ts-ignore
+          0.05,
+          1,
+          vertexValues[index].value
+        );
+        colors.push(color.r, color.g, color.b);
       }
+      geometry.attributes.color = new Float32BufferAttribute(colors, 3);
+      // enable shading (~100ms slower)
+      geometry.computeVertexNormals();
       isVerticesSet.current = true;
     }
   });
   return (
     <>
-      <directionalLight color={0xffffff} />
-      <mesh ref={mesh} rotation={[-Math.PI / 3, 0, 0]}>
+      <directionalLight color={0xffffff} position={[-1, 1, 0]} />
+      {/* <pointLight intensity={10} /> */}
+      {isMapVisible && (
+        <mesh ref={mesh} position={[0, 0, -0.001]}>
+          <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
+          <meshBasicMaterial map={switzerlandTexture} />
+        </mesh>
+      )}
+      <mesh ref={mesh}>
         <planeGeometry
           args={[
             1,
@@ -42,7 +64,12 @@ export default function Enerchy() {
             SIZE * ASPECT_SWITZERLAND - 1,
           ]}
         />
-        <meshStandardMaterial flatShading />
+        <meshStandardMaterial
+          vertexColors
+          opacity={opacity}
+          transparent
+          side={DoubleSide}
+        />
       </mesh>
     </>
   );
@@ -51,10 +78,16 @@ export default function Enerchy() {
 function generatePowerValueArray(inputArraySize = 100) {
   const inputArray = Array.from(
     Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
-    () => new Array(inputArraySize).fill(0)
+    () => new Array(inputArraySize).fill({ value: 0 })
   );
 
-  for (const [east, north, kWh] of productionPlants as ProductionPlant[]) {
+  for (const [
+    east,
+    north,
+    kWh,
+    mainCat,
+    subCat,
+  ] of productionPlants as ProductionPlant[]) {
     if (false || (kWh > 0 && kWh < 1000)) {
       const indexX = Math.round(
         linearInterpolation({
@@ -67,12 +100,16 @@ function generatePowerValueArray(inputArraySize = 100) {
         linearInterpolation({
           number: north,
           inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
-          outputRange: [0, Math.round(inputArraySize * ASPECT_SWITZERLAND) - 1],
+          outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
         })
       );
 
-      inputArray[indexY][indexX] = Math.max(inputArray[indexY][indexX], kWh);
+      inputArray[indexY][indexX] = {
+        value: Math.max(kWh, inputArray[indexY][indexX].value),
+        subCat,
+      };
     }
   }
+
   return inputArray;
 }
