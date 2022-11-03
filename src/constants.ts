@@ -1,5 +1,5 @@
 export const ASPECT_SWITZERLAND = 0.63;
-export const SIZE = 1000;
+export const SIZE = 500;
 
 export const BOUNDARIES = {
   east: {

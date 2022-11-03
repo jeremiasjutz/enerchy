@@ -48,7 +48,6 @@ export default function Enerchy() {
   return (
     <>
       <directionalLight color={0xffffff} position={[-1, 1, 0]} />
-      {/* <pointLight intensity={10} /> */}
       {isMapVisible && (
         <mesh ref={mesh} position={[0, 0, -0.001]}>
           <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />

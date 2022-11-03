@@ -9,9 +9,8 @@ export default function App() {
       <Canvas
         className="bg-black"
         camera={{
-          position: [0, 0, 1],
+          position: [0, -1, 1],
           near: 0.001,
-          far: 10,
         }}
       >
         <OrbitControls
