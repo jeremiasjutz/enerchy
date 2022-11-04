@@ -1,5 +1,11 @@
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { Mesh } from "three";
 
 import { ASPECT_SWITZERLAND, BOUNDARIES, SIZE } from "../constants";
@@ -8,7 +14,29 @@ import productionPlants from "../assets/productionPlants.json";
 import { ProductionPlant } from "../types";
 import { linearInterpolation } from "../utils/interpolations";
 
-export default function Enerchy() {
+export default function HeatMap({
+  minPower,
+  maxPower,
+  categoryWaterPowerEnabled,
+  categoryPhotovoltaicEnabled,
+  categoryWindEnergyEnabled,
+  categoryBiomassEnabled,
+  categoryOilEnabled,
+  categoryGasEnabled,
+  categoryWasteEnabled,
+  categoryNuclearEnergyEnabled,
+}: {
+  minPower: number;
+  maxPower: number;
+  categoryWaterPowerEnabled: boolean;
+  categoryPhotovoltaicEnabled: boolean;
+  categoryWindEnergyEnabled: boolean;
+  categoryBiomassEnabled: boolean;
+  categoryOilEnabled: boolean;
+  categoryGasEnabled: boolean;
+  categoryWasteEnabled: boolean;
+  categoryNuclearEnergyEnabled: boolean;
+}) {
   const mesh = useRef<Mesh>(null);
   const isVerticesSet = useRef(false);
 
