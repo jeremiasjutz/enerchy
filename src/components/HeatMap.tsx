@@ -9,7 +9,29 @@ import {
   generateHeatmapVertexValues,
 } from "../heatmap";
 
-export default function HeatMap() {
+export default function HeatMap({
+  minPower,
+  maxPower,
+  categoryWaterPowerEnabled,
+  categoryPhotovoltaicEnabled,
+  categoryWindEnergyEnabled,
+  categoryBiomassEnabled,
+  categoryOilEnabled,
+  categoryGasEnabled,
+  categoryWasteEnabled,
+  categoryNuclearEnergyEnabled,
+}: {
+  minPower: number;
+  maxPower: number;
+  categoryWaterPowerEnabled: boolean;
+  categoryPhotovoltaicEnabled: boolean;
+  categoryWindEnergyEnabled: boolean;
+  categoryBiomassEnabled: boolean;
+  categoryOilEnabled: boolean;
+  categoryGasEnabled: boolean;
+  categoryWasteEnabled: boolean;
+  categoryNuclearEnergyEnabled: boolean;
+}) {
   const [inputArraySize, setInputArraySize] = useState(100);
   const [scale, setScale] = useState(1 / 20);
 
