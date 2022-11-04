@@ -1,50 +1,41 @@
-import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Color, DoubleSide, Float32BufferAttribute, Mesh } from "three";
 import { useControls } from "leva";
 
 import { ASPECT_SWITZERLAND, BOUNDARIES, SIZE } from "../constants";
 import generateHeatmapVertexValues from "../heatmap";
-import productionPlants from "../assets/productionPlants.json";
+import pPlants from "../assets/productionPlants.json";
 import { ProductionPlant } from "../types";
 import { linearInterpolation } from "../utils/interpolations";
 import { useTexture } from "@react-three/drei";
 
+const productionPlants = pPlants as ProductionPlant[];
+
 export default function Enerchy() {
   const mesh = useRef<Mesh>(null);
-  const isVerticesSet = useRef(false);
   const switzerlandTexture = useTexture("/switzerland-outline.png");
   const { opacity, isMapVisible } = useControls({
     opacity: 1,
     isMapVisible: false,
   });
-  useFrame(() => {
-    if (mesh.current && !isVerticesSet.current) {
-      const color = new Color();
-      const colors: number[] = [];
-      const vertexValues = generateHeatmapVertexValues({
-        array: generatePowerValueArray(),
-      });
+  useEffect(() => {
+    const color = new Color();
+    const colors: number[] = [];
+    const vertexValues = generateHeatmapVertexValues({
+      array: generatePowerValueArray(),
+    });
 
-      const { geometry } = mesh.current;
-      for (let index = 0; index < geometry.attributes.position.count; index++) {
-        const value = vertexValues[index].value * (1 / 20);
-
-        geometry.attributes.position.setZ(index, value);
-        color.setHSL(
-          // @ts-ignore
-          0.05,
-          1,
-          vertexValues[index].value
-        );
-        colors.push(color.r, color.g, color.b);
-      }
-      geometry.attributes.color = new Float32BufferAttribute(colors, 3);
-      // enable shading (~100ms slower)
-      geometry.computeVertexNormals();
-      isVerticesSet.current = true;
+    const { geometry } = mesh.current!;
+    for (let index = 0; index < geometry.attributes.position.count; index++) {
+      const value = vertexValues[index].value * (1 / 20);
+      geometry.attributes.position.setZ(index, value);
+      color.setHSL(0.05, 1, vertexValues[index].value);
+      colors.push(color.r, color.g, color.b);
     }
-  });
+    geometry.attributes.color = new Float32BufferAttribute(colors, 3);
+    // enable shading (~100ms slower)
+    geometry.computeVertexNormals();
+  }, []);
   return (
     <>
       <directionalLight color={0xffffff} position={[-1, 1, 0]} />
@@ -80,13 +71,7 @@ function generatePowerValueArray(inputArraySize = 100) {
     () => new Array(inputArraySize).fill({ value: 0 })
   );
 
-  for (const [
-    east,
-    north,
-    kWh,
-    mainCat,
-    subCat,
-  ] of productionPlants as ProductionPlant[]) {
+  for (const [east, north, kWh, , subCat] of productionPlants) {
     if (false || (kWh > 0 && kWh < 1000)) {
       const indexX = Math.round(
         linearInterpolation({
@@ -102,7 +87,6 @@ function generatePowerValueArray(inputArraySize = 100) {
           outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
         })
       );
-
       inputArray[indexY][indexX] = {
         value: Math.max(kWh, inputArray[indexY][indexX].value),
         subCat,

@@ -39,7 +39,8 @@ async function createProductionPlantsJsonFile() {
       item._y !== "" &&
       item.SubCategory !== "subcat_9" &&
       item.SubCategory !== "subcat_5" &&
-      item.TotalPower !== ""
+      item.TotalPower !== "" &&
+      +item.TotalPower >= 10
     );
   });
 
