@@ -26,7 +26,6 @@
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "csvtojson": "^2.0.10",
-    "idw": "^0.0.2",
     "postcss": "^8.4.18",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
