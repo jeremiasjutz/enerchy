@@ -1,15 +1,16 @@
+import gsap from "gsap";
 import { useTexture } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useRef } from "react";
 import { Color, Float32BufferAttribute, Mesh } from "three";
 
+import { useStore } from "../store";
+import { linearInterpolation } from "../utils/interpolations";
 import { ASPECT_SWITZERLAND, SIZE } from "../constants";
 import {
   generatePowerValueArray,
   generateHeatmapVertexValues,
 } from "../heatmap";
-import { useStore } from "../store";
-import { linearInterpolation } from "../utils/interpolations";
 
 export default function HeatMap() {
   const mesh = useRef<Mesh>(null);
@@ -24,6 +25,10 @@ export default function HeatMap() {
   });
 
   useEffect(() => {
+    const { geometry } = mesh.current!;
+    const { attributes } = geometry;
+    const { position } = attributes;
+
     const inputArraySize =
       maxPower < 100_000 ? 100 : maxPower < 1_000_000 ? 50 : 25;
     const scale = linearInterpolation({
@@ -31,6 +36,7 @@ export default function HeatMap() {
       inputRange: [0, 1_872_000],
       outputRange: [1 / 20, 1 / 5],
     });
+
     const vertexValues = generateHeatmapVertexValues({
       array: generatePowerValueArray({
         inputArraySize,
@@ -42,17 +48,41 @@ export default function HeatMap() {
 
     const color = new Color();
     const colors: number[] = [];
-    const { geometry } = mesh.current!;
-    for (let index = 0; index < geometry.attributes.position.count; index++) {
+    const positions: number[] = [];
+
+    if (!attributes.color) {
+      attributes.color = new Float32BufferAttribute(
+        new Array(position.count * 3).fill(0),
+        3
+      );
+    }
+
+    for (let index = 0; index < position.count; index++) {
       const value = vertexValues[index];
-      geometry.attributes.position.setZ(index, value * scale);
+      positions.push(position.getX(index), position.getY(index), value * scale);
       color.setHSL(0.05, 1, value * 0.7);
       colors.push(color.r, color.g, color.b);
     }
-    geometry.computeVertexNormals();
-    geometry.attributes.color = new Float32BufferAttribute(colors, 3);
-    geometry.attributes.color.needsUpdate = true;
-    geometry.attributes.position.needsUpdate = true;
+
+    const duration = 1;
+    const ease = "power3";
+    gsap.to(position.array, {
+      ease,
+      duration,
+      endArray: positions,
+      onUpdate: () => {
+        position.needsUpdate = true;
+        geometry.computeVertexNormals();
+      },
+    });
+    gsap.to(attributes.color.array, {
+      ease,
+      duration,
+      endArray: colors,
+      onUpdate: () => {
+        attributes.color.needsUpdate = true;
+      },
+    });
   }, [minPower, maxPower, categories]);
 
   return (
