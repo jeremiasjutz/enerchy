@@ -11,6 +11,17 @@ export enum ProductionPlantCategories {
   Waste = 10,
 }
 
+export const productionPlantLabels: Record<string, string> = {
+  Water: "Wasserkraft",
+  Solar: "Photovoltaik",
+  Wind: "Windenergie",
+  Biomass: "Biomasse",
+  Nuclear: "Kernenergie",
+  Oil: "Erdöl",
+  Gas: "Erdgas",
+  Waste: "Abfälle",
+};
+
 export const allProductionPlantCategories = Object.values(
   ProductionPlantCategories
 )
