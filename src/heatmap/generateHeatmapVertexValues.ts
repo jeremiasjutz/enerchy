@@ -7,7 +7,6 @@ export default function generateHeatmapVertexValues({
   array: any[][];
   outputArrayRowSize?: number;
 }) {
-  console.time("calculate vertex values");
   const rows = array.length;
   const cols = array[0].length;
   const numberOfNeighborsToConsider = 2;
@@ -51,6 +50,5 @@ export default function generateHeatmapVertexValues({
     }
   }
 
-  console.timeEnd("calculate vertex values");
   return outputArray.flat().map((number) => number / maxZ);
 }
