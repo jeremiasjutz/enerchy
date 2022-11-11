@@ -13,13 +13,12 @@ export default function App() {
         camera={{
           position: [0, -1, 1],
           near: 0.001,
+          up: [0, 0, 1],
         }}
       >
         <OrbitControls
-          minPolarAngle={0.25}
-          maxPolarAngle={Math.PI - 0.25}
-          minAzimuthAngle={-Math.PI / 2.5}
-          maxAzimuthAngle={Math.PI / 2.5}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI / 2 - 0.25}
           minDistance={0.1}
           maxDistance={1}
         />
