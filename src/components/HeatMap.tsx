@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { useTexture } from "@react-three/drei";
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 import { useEffect, useRef } from "react";
 import { Color, Float32BufferAttribute, Mesh } from "three";
 
@@ -19,10 +19,13 @@ export default function HeatMap() {
   const maxPower = useStore((state) => state.maxPower);
   const categories = useStore((state) => state.categories);
 
-  const { opacity, isMapVisible } = useControls({
-    opacity: 0.9,
-    isMapVisible: true,
-  });
+  const { opacity, isMapVisible } = useControls(
+    {
+      opacity: 0.8,
+      isMapVisible: true,
+    },
+    { hidden: true }
+  );
 
   useEffect(() => {
     const { geometry } = mesh.current!;
@@ -87,6 +90,9 @@ export default function HeatMap() {
 
   return (
     <>
+      <Leva
+        hidden // default = false, when true the GUI is hidden
+      />
       <pointLight color={0xffffff} position={[-3, 3, 0]} />
       {isMapVisible && (
         <mesh ref={mesh} position={[0, 0, -0.001]}>
