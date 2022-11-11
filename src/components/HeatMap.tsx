@@ -23,8 +23,7 @@ export default function HeatMap() {
     {
       opacity: 0.8,
       isMapVisible: true,
-    },
-    { hidden: true }
+    }
   );
 
   useEffect(() => {
