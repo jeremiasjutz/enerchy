@@ -1,13 +1,33 @@
 import { useStore } from "../store";
-import { ProductionPlantCategories, productionPlantLabels } from "../types";
+import {
+  RenewableProductionPlantCategories,
+  ProductionPlantCategories,
+  productionPlantLabels,
+  NonRenewableProductionPlantCategories,
+} from "../types";
 import * as Slider from "@radix-ui/react-slider";
 import { useState } from "react";
 
-const length = Object.keys(ProductionPlantCategories).length / 2;
-const inputs = Object.entries(ProductionPlantCategories).slice(length, -1) as [
+const lengthRenewable = Object.keys(RenewableProductionPlantCategories).length;
+const lengthNonRenewable = Object.keys(
+  NonRenewableProductionPlantCategories
+).length;
+
+const renewableProductionPlantCategories = Object.entries(
+  RenewableProductionPlantCategories
+).slice(lengthRenewable / 2, lengthRenewable) as unknown as [
   string,
   ProductionPlantCategories
 ][];
+
+const nonRenewableProductionPlantCategories = Object.entries(
+  NonRenewableProductionPlantCategories
+).slice(lengthNonRenewable / 2, lengthNonRenewable) as unknown as [
+  string,
+  ProductionPlantCategories
+][];
+
+console.log(renewableProductionPlantCategories);
 
 export default function Controls() {
   const minPower = useStore((state) => state.minPower);
@@ -50,12 +70,12 @@ export default function Controls() {
   }
 
   return (
-    <div className="fixed top-10 left-10 z-10 text-white">
+    <div className="fixed top-10 left-10 z-10 rounded-md bg-black/30 p-4 text-white backdrop-blur-lg">
       <div className="grid gap-2">
         <label>
           Megawattstunden
           <Slider.Root
-            defaultValue={[0, 2]}
+            defaultValue={[0, 1]}
             max={8}
             step={1}
             onValueCommit={([min, max]) => {
@@ -93,23 +113,50 @@ export default function Controls() {
             </Slider.Thumb>
           </Slider.Root>
         </label>
-        {inputs.map(([labelKey, type]) => (
-          <div key={labelKey}>
-            <input
-              type="checkbox"
-              id={"category-checkbox-" + type}
-              className="peer hidden"
-              checked={categories.includes(type)}
-              onChange={() => toggleCategory(type)}
-            />
-            <label
-              htmlFor={"category-checkbox-" + type}
-              className="cursor-pointer block rounded-xl border  border-gray-600 peer-checked:border-accent px-3 py-2 font-semibold text-white peer-checked:text-accent"
-            >
-              {productionPlantLabels[labelKey]}
-            </label>
-          </div>
-        ))}
+
+        <h2>Erneuerbar</h2>
+
+        <div className=" mb-2 grid grid-cols-2 gap-2">
+          {renewableProductionPlantCategories.map(([labelKey, type]) => (
+            <div key={labelKey}>
+              <input
+                type="checkbox"
+                id={"category-checkbox-" + type}
+                className="peer hidden"
+                checked={categories.includes(type)}
+                onChange={() => toggleCategory(type)}
+              />
+              <label
+                htmlFor={"category-checkbox-" + type}
+                className="block cursor-pointer rounded-xl border  border-gray-600 bg-foreground/10 px-3 py-2 font-semibold text-foreground/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
+              >
+                {productionPlantLabels[labelKey]}
+              </label>
+            </div>
+          ))}
+        </div>
+
+        <h2>Nicht erneuerbar</h2>
+
+        <div className=" grid grid-cols-2 gap-2">
+          {nonRenewableProductionPlantCategories.map(([labelKey, type]) => (
+            <div key={labelKey}>
+              <input
+                type="checkbox"
+                id={"category-checkbox-" + type}
+                className="peer hidden"
+                checked={categories.includes(type)}
+                onChange={() => toggleCategory(type)}
+              />
+              <label
+                htmlFor={"category-checkbox-" + type}
+                className="block cursor-pointer rounded-xl border  border-gray-600 bg-foreground/10 px-3 py-2 font-semibold text-foreground/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
+              >
+                {productionPlantLabels[labelKey]}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
