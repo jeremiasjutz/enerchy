@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useThree } from "@react-three/fiber";
 
 const duration = 1;
-const initialXRotation = Math.PI * 0.5;
+const initialXRotation = Math.PI * -0.5;
 const ease = "power3.inOut";
 
 export default function LoadingLogo({
@@ -25,7 +25,7 @@ export default function LoadingLogo({
 
   useEffect(() => {
     gsap.to(mesh.current.rotation, {
-      y: -Math.PI * 2,
+      y: Math.PI * 2,
       duration: duration * 4,
       ease: "none",
       repeat: Infinity,
