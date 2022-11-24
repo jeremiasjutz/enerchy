@@ -1,12 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import { NavArrowDown } from "iconoir-react";
 import { motion, Variants } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 
 import LoadingLogo from "./LoadingLogo";
 import { pageTransition } from "./Content";
 import { productionPlantLabels } from "../types";
+import { useScrollToHeatMap } from "../hooks/useScrollToHeatMap";
 
 const labelArray = Object.values(productionPlantLabels);
 
@@ -17,14 +18,7 @@ export default function Onboarding({
 }) {
   const [contentVisible, setContentVisible] = useState(false);
 
-  useEffect(() => {
-    document.addEventListener("wheel", scrollToHeatMap);
-    document.addEventListener("touchmove", scrollToHeatMap);
-    return () => {
-      document.removeEventListener("wheel", scrollToHeatMap);
-      document.removeEventListener("touchmove", scrollToHeatMap);
-    };
-  }, []);
+  useScrollToHeatMap(scrollToHeatMap);
 
   return (
     <motion.div
@@ -56,10 +50,9 @@ export default function Onboarding({
         >
           <motion.h1
             variants={textVariant}
-            className="w-full text-3xl font-extrabold tracking-tighter text-white sm:self-auto sm:text-5xl md:text-8xl"
+            className="w-full text-4xl font-extrabold tracking-tighter text-white sm:self-auto sm:text-5xl md:text-8xl"
           >
-            Entdecke die unsichtbaren
-            <br /> Berge der Schweiz
+            Entdecke die unsichtbaren Berge der Schweiz
           </motion.h1>
           <motion.h2
             variants={textVariant}
