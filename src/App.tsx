@@ -1,30 +1,24 @@
-import { OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { AnimatePresence } from "framer-motion";
+import { useCallback, useState } from "react";
 
-import HeatMap from "./components/HeatMap";
-import Controls from "./components/Controls";
+import Content from "./components/Content";
+import Onboarding from "./components/Onboarding";
 
 export default function App() {
+  const [showMain, setShowMain] = useState(false);
+  const [y, setY] = useState<string | number>("100%");
+  const [opacity, setOpacity] = useState(0);
+  const scrollToHeatMap = useCallback(() => {
+    setShowMain(true);
+    setY(0);
+    setOpacity(1);
+  }, []);
   return (
     <>
-      <Controls />
-      <Canvas
-        className="bg-black"
-        camera={{
-          position: [0, -1, 1],
-          near: 0.001,
-          up: [0, 0, 1],
-        }}
-      >
-        <OrbitControls
-          minPolarAngle={0}
-          maxPolarAngle={Math.PI / 2 - 0.25}
-          minDistance={0.1}
-          maxDistance={1}
-        />
-        <ambientLight />
-        <HeatMap />
-      </Canvas>
+      <AnimatePresence>
+        {!showMain && <Onboarding scrollToHeatMap={scrollToHeatMap} />}
+      </AnimatePresence>
+      <Content y={y} opacity={opacity} />
     </>
   );
 }

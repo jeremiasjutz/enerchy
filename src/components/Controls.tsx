@@ -27,8 +27,6 @@ const nonRenewableProductionPlantCategories = Object.entries(
   ProductionPlantCategories
 ][];
 
-console.log(renewableProductionPlantCategories);
-
 export default function Controls() {
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
@@ -128,7 +126,7 @@ export default function Controls() {
               />
               <label
                 htmlFor={"category-checkbox-" + type}
-                className="block cursor-pointer rounded-xl border  border-gray-600 bg-foreground/10 px-3 py-2 font-semibold text-foreground/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
+                className="block cursor-pointer rounded-xl border  border-gray-600 bg-white/10 px-3 py-2 font-semibold text-white/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
               >
                 {productionPlantLabels[labelKey]}
               </label>
@@ -150,7 +148,7 @@ export default function Controls() {
               />
               <label
                 htmlFor={"category-checkbox-" + type}
-                className="block cursor-pointer rounded-xl border  border-gray-600 bg-foreground/10 px-3 py-2 font-semibold text-foreground/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
+                className="block cursor-pointer rounded-xl border  border-gray-600 bg-white/10 px-3 py-2 font-semibold text-white/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
               >
                 {productionPlantLabels[labelKey]}
               </label>

@@ -27,7 +27,7 @@ export enum NonRenewableProductionPlantCategories {
 
 export const productionPlantLabels: Record<string, string> = {
   Water: "Wasserkraft",
-  Solar: "Photovoltaik",
+  Solar: "Solarenergie",
   Wind: "Windenergie",
   Biomass: "Biomasse",
   Nuclear: "Kernenergie",
