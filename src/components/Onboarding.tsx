@@ -26,7 +26,7 @@ export default function Onboarding({
       exit={{ y: "-100%", opacity: 0 }}
     >
       <Canvas
-        className="!absolute inset-0 -translate-y-12 sm:translate-y-0"
+        className="!pointer-events-none !absolute inset-0 -translate-y-12 sm:translate-y-0"
         camera={{ fov: 55 }}
       >
         <LoadingLogo onComplete={() => setContentVisible(true)} />
@@ -36,13 +36,13 @@ export default function Onboarding({
           variants={container}
           initial="hidden"
           animate="show"
-          className="mx-auto grid h-full max-w-7xl grid-rows-3 place-items-center px-8 sm:text-center"
+          className="mx-auto grid h-full max-w-7xl grid-rows-3 place-items-center p-8 sm:text-center"
         >
           <div />
           <div className="grid place-items-center gap-10">
             <motion.h1
               variants={textVariant}
-              className="w-full text-4xl font-extrabold tracking-tighter text-white sm:self-auto sm:text-5xl md:text-8xl"
+              className="w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl md:text-8xl"
             >
               Entdecke die unsichtbaren Berge der Schweiz
             </motion.h1>
@@ -67,7 +67,7 @@ export default function Onboarding({
             whileTap={{
               scale: 0.95,
             }}
-            className="mb-8 w-full self-end rounded-xl bg-accent/25 px-6 py-4 font-medium text-accent ring-2 ring-inset ring-accent backdrop-blur-sm sm:mb-0 sm:w-auto sm:self-auto sm:text-xl"
+            className="w-full self-end rounded-xl bg-accent-900 px-6 py-4 font-medium text-accent sm:mb-0 sm:w-auto sm:self-auto sm:text-xl"
           >
             Berglandschaft entdecken
           </motion.button>

@@ -2,8 +2,9 @@ lockfileVersion: 5.4
 
 specifiers:
   '@fontsource/albert-sans': ^4.5.1
+  '@headlessui/react': ^1.7.4
   '@radix-ui/react-slider': ^1.1.0
-  '@react-three/drei': ^9.43.2
+  '@react-three/drei': ^9.43.3
   '@react-three/fiber': ^8.9.1
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
@@ -12,6 +13,7 @@ specifiers:
   '@types/three': ^0.146.0
   '@vitejs/plugin-react': ^2.2.0
   autoprefixer: ^10.4.13
+  clsx: ^1.2.1
   csvtojson: ^2.0.10
   framer-motion: ^7.6.12
   gsap: ^3.11.3
@@ -32,9 +34,11 @@ specifiers:
 
 dependencies:
   '@fontsource/albert-sans': 4.5.1
+  '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-slider': 1.1.0_biqbaboplfbrettd7655fr4n2y
   '@react-three/drei': 9.43.3_xwynmv5llzsuuouxruzymqw67e
   '@react-three/fiber': 8.9.1_mjlgqb43i6mvslmnwgzrdumoh4
+  clsx: 1.2.1
   framer-motion: 7.6.12_biqbaboplfbrettd7655fr4n2y
   gsap: 3.11.3
   iconoir-react: 5.4.1_react@18.2.0
@@ -397,6 +401,18 @@ packages:
 
   /@fontsource/albert-sans/4.5.1:
     resolution: {integrity: sha512-OIw0WdnV+6+/Ym2hJvbR6cjp8bEwX0AyxuKLYRXK3TGWu6HdJ91QoDiOX+jci7amXXEueth8tWj8RQHISONyvg==}
+    dev: false
+
+  /@headlessui/react/1.7.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-D8n5yGCF3WIkPsjEYeM8knn9jQ70bigGGb5aUvN6y4BGxcT3OcOQOKcM3zRGllRCZCFxCZyQvYJF6ZE7bQUOyQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@jest/expect-utils/29.3.1:
@@ -1237,6 +1253,15 @@ packages:
     resolution: {integrity: sha512-lVZdhvbEudris15CLytp2u6Y0p5EKfztae9Fqa189MfNmln9F33XuH69v5fvNfiRN5/0eAUz2yJL3mo+nhaRKg==}
     engines: {node: '>=8'}
     dev: true
+
+  /client-only/0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
+
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

@@ -4,9 +4,14 @@
 
 @layer components {
   .bg-pattern{
-    @apply bg-[size:calc(100vw/5)calc(100vw/5)] bg-[calc(100vw/10)calc(100vw/10)]
-    md:bg-[size:calc(100vw/11)calc(100vw/11)] md:bg-[calc(100vw/22)calc(100vw/22)]
-    before:absolute before:inset-0 before:-z-10 before:bg-[image:radial-gradient(transparent,theme('colors.black')_70%)]
+    @apply bg-[size:calc(100vw/5)_calc(100vw/5)] bg-[calc(100vw/10)_calc(100vw/10)]
+    md:bg-[size:calc(100vw/11)_calc(100vw/11)] md:bg-[calc(100vw/22)_calc(100vw/22)]
+    before:fixed before:inset-0 before:-z-10 before:bg-[image:radial-gradient(transparent,theme('colors.black')_70%)]
     bg-[image:linear-gradient(currentColor_1px,transparent_1px),linear-gradient(to_right,currentColor_1px,transparent_1px)];
+  }
+  .bg-pattern-sidebar{
+   @apply bg-[size:75px_75px] bg-[150px_150px]
+   before:fixed before:inset-0 before:-z-10 before:bg-[image:radial-gradient(transparent,theme('colors.black')_60%)]
+   bg-[image:linear-gradient(currentColor_1px,transparent_1px),linear-gradient(to_right,currentColor_1px,transparent_1px)];
   }
 }

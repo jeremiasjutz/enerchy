@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@fontsource/albert-sans": "^4.5.1",
+    "@headlessui/react": "^1.7.4",
     "@radix-ui/react-slider": "^1.1.0",
-    "@react-three/drei": "^9.43.2",
+    "@react-three/drei": "^9.43.3",
     "@react-three/fiber": "^8.9.1",
+    "clsx": "^1.2.1",
     "framer-motion": "^7.6.12",
     "gsap": "^3.11.3",
     "iconoir-react": "^5.4.1",
