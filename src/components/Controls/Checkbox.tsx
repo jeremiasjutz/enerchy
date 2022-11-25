@@ -2,6 +2,17 @@ import clsx from "clsx";
 import { useStore } from "../../store";
 import { ProductionPlantCategory, productionPlantLabels } from "../../types";
 
+import {
+  Atom,
+  Droplet,
+  GasTank,
+  Leaf,
+  OilIndustry,
+  SunLight,
+  Trash,
+  Wind,
+} from "iconoir-react";
+
 interface CheckboxProps {
   labelKey: string;
   type: ProductionPlantCategory;
@@ -11,6 +22,8 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
   const categories = useStore((state) => state.categories);
   const toggleCategory = useStore((state) => state.toggleCategory);
   const checked = categories.includes(type);
+  const productionPlantLabel = productionPlantLabels[labelKey];
+  const Icon = productionPlantIcons[labelKey];
 
   return (
     <div>
@@ -29,8 +42,8 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
       <label
         htmlFor={"category-checkbox-" + type}
         className={clsx(
-          "relative block cursor-pointer rounded-xl px-4 py-4 font-medium sm:px-6 sm:text-xl",
-          "transition-all peer-focus-visible:ring-2",
+          "relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-4 ",
+          "font-medium transition-all peer-focus-visible:ring-2 sm:px-6 sm:text-xl",
           checked
             ? "bg-accent-900 text-accent ring-accent"
             : "bg-gray-900 text-gray-300 ring-gray-500"
@@ -38,15 +51,27 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
       >
         <span
           className={clsx(
-            "absolute top-px right-2 -translate-y-1/2 rounded-xl",
+            "absolute top-0 right-2 -translate-y-1/2 rounded-full",
             "px-3 py-0.5 text-xs font-semibold transition-colors",
             checked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
-          {amount ?? 0}
+          {amount ?? ~~(Math.random() * 10000)}
         </span>
-        {productionPlantLabels[labelKey]}
+        <span>{productionPlantLabel}</span>
+        <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
       </label>
     </div>
   );
 }
+
+export const productionPlantIcons: Record<string, typeof Droplet> = {
+  Water: Droplet,
+  Solar: SunLight,
+  Wind: Wind,
+  Biomass: Leaf,
+  Nuclear: Atom,
+  Oil: OilIndustry,
+  Gas: GasTank,
+  Waste: Trash,
+};

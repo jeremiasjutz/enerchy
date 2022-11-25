@@ -15,7 +15,7 @@ export enum RenewableProductionPlantCategories {
   Water = 1,
   Solar = 2,
   Wind = 3,
-  Biomass = 4
+  Biomass = 4,
 }
 
 export enum NonRenewableProductionPlantCategories {
