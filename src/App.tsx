@@ -4,10 +4,12 @@ import { useCallback, useState } from "react";
 import Content from "./components/Content";
 import Onboarding from "./components/Onboarding";
 
+const skipOnboarding = false;
+
 export default function App() {
   const [showMain, setShowMain] = useState(false);
-  const [y, setY] = useState<string | number>("100%");
-  const [opacity, setOpacity] = useState(0);
+  const [y, setY] = useState<string | number>(skipOnboarding ? 0 : "100%");
+  const [opacity, setOpacity] = useState(skipOnboarding ? 1 : 0);
   const scrollToHeatMap = useCallback(() => {
     setShowMain(true);
     setY(0);
@@ -16,7 +18,9 @@ export default function App() {
   return (
     <>
       <AnimatePresence>
-        {!showMain && <Onboarding scrollToHeatMap={scrollToHeatMap} />}
+        {!showMain && !skipOnboarding && (
+          <Onboarding scrollToHeatMap={scrollToHeatMap} />
+        )}
       </AnimatePresence>
       <Content y={y} opacity={opacity} />
     </>

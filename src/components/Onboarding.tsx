@@ -1,5 +1,4 @@
 import { Canvas } from "@react-three/fiber";
-import { NavArrowDown } from "iconoir-react";
 import { motion, Variants } from "framer-motion";
 import { useState } from "react";
 
@@ -64,6 +63,9 @@ export default function Onboarding({
             onClick={scrollToHeatMap}
             whileHover={{
               scale: 1.05,
+            }}
+            whileTap={{
+              scale: 0.95,
             }}
             className="mb-8 w-full self-end rounded-xl bg-accent/25 px-6 py-4 font-medium text-accent ring-2 ring-inset ring-accent backdrop-blur-sm sm:mb-0 sm:w-auto sm:self-auto sm:text-xl"
           >

@@ -1,6 +1,6 @@
 export type ProductionPlant = [number, number, number, number, number, string];
 
-export enum ProductionPlantCategories {
+export enum ProductionPlantCategory {
   Water = 1,
   Solar = 2,
   Wind = 3,
@@ -37,7 +37,7 @@ export const productionPlantLabels: Record<string, string> = {
 };
 
 export const allProductionPlantCategories = Object.values(
-  ProductionPlantCategories
+  ProductionPlantCategory
 )
   .filter((v) => !isNaN(Number(v)))
   .map((v) => Number(v));

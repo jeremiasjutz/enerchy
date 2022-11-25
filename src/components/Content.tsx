@@ -5,7 +5,7 @@ import { motion, Transition } from "framer-motion";
 
 export const pageTransition: Transition = {
   type: "spring",
-  duration: 1.5,
+  bounce: 0,
 };
 
 export default function Content({

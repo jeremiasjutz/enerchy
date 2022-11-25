@@ -1,12 +1,15 @@
 import { useStore } from "../store";
 import {
   RenewableProductionPlantCategories,
-  ProductionPlantCategories,
+  ProductionPlantCategory,
   productionPlantLabels,
   NonRenewableProductionPlantCategories,
 } from "../types";
 import * as Slider from "@radix-ui/react-slider";
 import { useState } from "react";
+import { motion, Transition } from "framer-motion";
+import { ArrowLeft } from "iconoir-react";
+import { pageTransition } from "./Content";
 
 const lengthRenewable = Object.keys(RenewableProductionPlantCategories).length;
 const lengthNonRenewable = Object.keys(
@@ -17,23 +20,22 @@ const renewableProductionPlantCategories = Object.entries(
   RenewableProductionPlantCategories
 ).slice(lengthRenewable / 2, lengthRenewable) as unknown as [
   string,
-  ProductionPlantCategories
+  ProductionPlantCategory
 ][];
 
 const nonRenewableProductionPlantCategories = Object.entries(
   NonRenewableProductionPlantCategories
 ).slice(lengthNonRenewable / 2, lengthNonRenewable) as unknown as [
   string,
-  ProductionPlantCategories
+  ProductionPlantCategory
 ][];
 
 export default function Controls() {
+  const [isControlsOpen, setIsControlsOpen] = useState(true);
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
-  const categories = useStore((state) => state.categories);
   const setMinPower = useStore((state) => state.setMinPower);
   const setMaxPower = useStore((state) => state.setMaxPower);
-  const toggleCategory = useStore((state) => state.toggleCategory);
 
   const [minPowerLocal, setMinPowerLocal] = useState(minPower);
   const [maxPowerLocal, setMaxPowerLocal] = useState(maxPower);
@@ -68,8 +70,28 @@ export default function Controls() {
   }
 
   return (
-    <div className="fixed top-10 left-10 z-10 rounded-md bg-black/30 p-4 text-white backdrop-blur-lg">
-      <div className="grid gap-2">
+    <motion.div
+      initial={{ x: 0 }}
+      animate={{ x: isControlsOpen ? 0 : "-100%" }}
+      transition={pageTransition}
+      className="text-whism fixed inset-y-0 z-10 border-r border-gray-800 bg-gray-900 p-6"
+    >
+      <motion.button
+        initial={{ x: 0 }}
+        animate={{ x: isControlsOpen ? 0 : "100%" }}
+        transition={pageTransition}
+        className="absolute top-0 right-0 bg-white/10 p-2 backdrop-blur-md"
+        onClick={() => setIsControlsOpen(!isControlsOpen)}
+      >
+        <motion.div
+          initial={{ rotate: 0 }}
+          animate={{ rotate: isControlsOpen ? 0 : 180 }}
+          transition={{ ...pageTransition, delay: 0.25 }}
+        >
+          <ArrowLeft />
+        </motion.div>
+      </motion.button>
+      <div className="mt-6 grid gap-2">
         <label>
           Megawattstunden
           <Slider.Root
@@ -113,49 +135,46 @@ export default function Controls() {
         </label>
 
         <h2>Erneuerbar</h2>
-
-        <div className=" mb-2 grid grid-cols-2 gap-2">
+        <div className="mb-2 grid grid-cols-2 gap-2">
           {renewableProductionPlantCategories.map(([labelKey, type]) => (
-            <div key={labelKey}>
-              <input
-                type="checkbox"
-                id={"category-checkbox-" + type}
-                className="peer hidden"
-                checked={categories.includes(type)}
-                onChange={() => toggleCategory(type)}
-              />
-              <label
-                htmlFor={"category-checkbox-" + type}
-                className="block cursor-pointer rounded-xl border  border-gray-600 bg-white/10 px-3 py-2 font-semibold text-white/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
-              >
-                {productionPlantLabels[labelKey]}
-              </label>
-            </div>
+            <Checkbox labelKey={labelKey} type={type} key={labelKey} />
           ))}
         </div>
 
         <h2>Nicht erneuerbar</h2>
-
-        <div className=" grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {nonRenewableProductionPlantCategories.map(([labelKey, type]) => (
-            <div key={labelKey}>
-              <input
-                type="checkbox"
-                id={"category-checkbox-" + type}
-                className="peer hidden"
-                checked={categories.includes(type)}
-                onChange={() => toggleCategory(type)}
-              />
-              <label
-                htmlFor={"category-checkbox-" + type}
-                className="block cursor-pointer rounded-xl border  border-gray-600 bg-white/10 px-3 py-2 font-semibold text-white/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
-              >
-                {productionPlantLabels[labelKey]}
-              </label>
-            </div>
+            <Checkbox labelKey={labelKey} type={type} key={labelKey} />
           ))}
         </div>
       </div>
+    </motion.div>
+  );
+}
+
+interface CheckboxProps {
+  labelKey: string;
+  type: ProductionPlantCategory;
+}
+function Checkbox({ labelKey, type }: CheckboxProps) {
+  const categories = useStore((state) => state.categories);
+  const toggleCategory = useStore((state) => state.toggleCategory);
+
+  return (
+    <div>
+      <input
+        type="checkbox"
+        id={"category-checkbox-" + type}
+        className="peer hidden"
+        checked={categories.includes(type)}
+        onChange={() => toggleCategory(type)}
+      />
+      <label
+        htmlFor={"category-checkbox-" + type}
+        className="block cursor-pointer rounded-xl border border-gray-600 bg-white/10 px-3 py-2 font-semibold text-white/50 peer-checked:border-accent peer-checked:bg-accent/10 peer-checked:text-accent"
+      >
+        {productionPlantLabels[labelKey]}
+      </label>
     </div>
   );
 }
