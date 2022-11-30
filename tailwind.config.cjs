@@ -1,3 +1,4 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
@@ -6,15 +7,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        foreground: "#FFFBFE",
-        background: "#000000",
-        accent: "#FFC700",
-        gray: colors.neutral,
+        accent: {
+          DEFAULT: "#FFC700",
+          50: "#FFEFB8",
+          100: "#FFEBA3",
+          200: "#FFE27A",
+          300: "#FFD952",
+          400: "#FFD029",
+          500: "#FFC700",
+          600: "#C79B00",
+          700: "#8F6F00",
+          800: "#574400",
+          900: "#332808",
+        },
+        gray: { ...colors.neutral, 1000: "#111111" },
       },
       fontFamily: {
-        "albert-sans": ["Albert Sans", "sans-serif"],
+        sans: ["Albert SansVariable", ...defaultTheme.fontFamily.sans],
       },
+    },
+    transitionDuration: {
+      DEFAULT: "300ms",
+    },
+    transitionTimingFunction: {
+      DEFAULT: "cubic-bezier(0.65, 0, 0.35, 1)",
     },
   },
   plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 };

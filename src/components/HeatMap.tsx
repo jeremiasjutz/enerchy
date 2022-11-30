@@ -1,6 +1,5 @@
 import gsap from "gsap";
-import { useTexture } from "@react-three/drei";
-import { Leva, useControls } from "leva";
+import { OrbitControls, useTexture } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { Color, Float32BufferAttribute, Mesh } from "three";
 
@@ -18,11 +17,6 @@ export default function HeatMap() {
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
   const categories = useStore((state) => state.categories);
-
-  const { opacity, isMapVisible } = useControls({
-    opacity: 0.8,
-    isMapVisible: true,
-  });
 
   useEffect(() => {
     const { geometry } = mesh.current!;
@@ -102,16 +96,18 @@ export default function HeatMap() {
 
   return (
     <>
-      <Leva
-        hidden // default = false, when true the GUI is hidden
+      <OrbitControls
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI / 2 - 0.25}
+        minDistance={0.1}
+        maxDistance={1}
       />
+      <ambientLight />
       <pointLight color={0xffffff} position={[-3, 3, 0]} />
-      {isMapVisible && (
-        <mesh ref={mesh} position={[0, 0, -0.001]}>
-          <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
-          <meshBasicMaterial map={switzerlandTexture} />
-        </mesh>
-      )}
+      <mesh position={[0, 0, -0.001]}>
+        <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
+        <meshBasicMaterial map={switzerlandTexture} />
+      </mesh>
       <mesh ref={mesh}>
         <planeGeometry
           args={[
@@ -124,7 +120,7 @@ export default function HeatMap() {
         <meshStandardMaterial
           roughness={0}
           vertexColors
-          opacity={opacity}
+          opacity={0.85}
           transparent
         />
       </mesh>
