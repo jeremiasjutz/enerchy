@@ -16,7 +16,16 @@ interface State {
 export const useStore = create<State>((set) => ({
   minPower: 0,
   maxPower: 1000,
-  categories: [ProductionPlantCategories.Water, ProductionPlantCategories.Solar],
+  categories: [
+    ProductionPlantCategories.Water, 
+    ProductionPlantCategories.Solar,
+    ProductionPlantCategories.Wind,
+    ProductionPlantCategories.Biomass,
+    ProductionPlantCategories.Nuclear,
+    ProductionPlantCategories.Gas,
+    ProductionPlantCategories.Oil,
+    ProductionPlantCategories.Waste,
+  ],
   toggleCategory: (category) =>
     set((state) => ({
       categories: state.categories.includes(category)

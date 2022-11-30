@@ -9,7 +9,7 @@ export default function App() {
     <>
       <Controls />
       <Canvas
-        className="bg-black"
+        className="cursor-grabbing bg-black"
         camera={{
           position: [0, -1, 1],
           near: 0.001,
@@ -21,6 +21,7 @@ export default function App() {
           maxPolarAngle={Math.PI / 2 - 0.25}
           minDistance={0.1}
           maxDistance={1}
+          rotateSpeed={0.5}
         />
         <ambientLight />
         <HeatMap />

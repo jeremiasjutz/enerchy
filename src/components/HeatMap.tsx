@@ -19,25 +19,28 @@ export default function HeatMap() {
   const maxPower = useStore((state) => state.maxPower);
   const categories = useStore((state) => state.categories);
 
-  const { opacity, isMapVisible } = useControls(
-    {
-      opacity: 0.8,
-      isMapVisible: true,
-    }
-  );
+  const { opacity, isMapVisible } = useControls({
+    opacity: 0.8,
+    isMapVisible: true,
+  });
 
   useEffect(() => {
     const { geometry } = mesh.current!;
     const { attributes } = geometry;
     const { position } = attributes;
 
-    const inputArraySize =
-      maxPower < 100_000 ? 100 : maxPower < 1_000_000 ? 50 : 25;
-    const scale = linearInterpolation({
-      number: maxPower,
-      inputRange: [0, 1_872_000],
-      outputRange: [1 / 20, 1 / 5],
-    });
+    // const inputArraySize =
+    //   maxPower < 100_000 ? 100 : maxPower < 1_000_000 ? 50 : 25;
+
+    const inputArraySize = 250;
+
+    // const scale = linearInterpolation({
+    //   number: maxPower,
+    //   inputRange: [0, 1_872_000],
+    //   outputRange: [1 / 20, 1 / 5],
+    // });
+
+    const scale = 0.5;
 
     const vertexValues = generateHeatmapVertexValues({
       array: generatePowerValueArray({
@@ -61,8 +64,18 @@ export default function HeatMap() {
 
     for (let index = 0; index < position.count; index++) {
       const value = vertexValues[index];
+
       positions.push(position.getX(index), position.getY(index), value * scale);
-      color.setHSL(0.05, 1, value * 0.7);
+      // color.setHSL(value, 1, value * 0.7);
+
+      // color.setHSL(value, 1, 0.02 + value * 0.7);
+
+      if (value > 0 && value < 0.018) {
+        color.setHSL(0.5, 1, value * 500);
+      } else {
+        color.setHSL(0.05, 1, value * 1.5);
+      }
+
       colors.push(color.r, color.g, color.b);
     }
 

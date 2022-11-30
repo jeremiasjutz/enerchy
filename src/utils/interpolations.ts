@@ -14,10 +14,35 @@ export function logarithmicInterpolation({
   inputRange: [inputMin, inputMax],
   outputRange: [outputMin, outputMax],
 }: Mapping) {
-  const x =
-    ((number - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) +
-    outputMin;
-  return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+  const x = linearInterpolation({
+    number: number,
+    inputRange: [inputMin, inputMax],
+    outputRange: [0, 1],
+  });
+
+  return linearInterpolation({
+    number: x === 1 ? 1 : 1 - Math.pow(2, -10 * x),
+    inputRange: [0, 1],
+    outputRange: [outputMin, outputMax],
+  });
+}
+
+export function cubicInterpolation({
+  number,
+  inputRange: [inputMin, inputMax],
+  outputRange: [outputMin, outputMax],
+}: Mapping) {
+  const x = linearInterpolation({
+    number: number,
+    inputRange: [inputMin, inputMax],
+    outputRange: [0, 1],
+  });
+
+  return linearInterpolation({
+    number: 1 - Math.pow(1 - x, 3),
+    inputRange: [0, 1],
+    outputRange: [outputMin, outputMax],
+  });
 }
 
 export function bezierInterpolation(

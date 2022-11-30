@@ -16,7 +16,8 @@ export default function generateHeatmapVertexValues({
   const halfOutputArrayScaleFactor = outputArrayScaleFactor / 2;
 
   const k = 1 / Math.pow((outputArrayScaleFactor * Math.sqrt(2)) / 2, 2);
-  let maxZ = 0;
+  let maxZ = 1_872_000;
+  // let maxZ = 0;
 
   const outputArray = Array.from(Array(outputArrayRowSize), () =>
     new Array(outputArrayColumnSize).fill(0)
@@ -45,7 +46,10 @@ export default function generateHeatmapVertexValues({
           }
         }
       }
-      if (z > maxZ) maxZ = z;
+      // if (z > maxZ) {
+      //   maxZ = z;
+      // }
+
       outputArray[outputArrayRowSize - y - 1][x] = z;
     }
   }
