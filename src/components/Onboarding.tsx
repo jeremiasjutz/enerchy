@@ -20,6 +20,7 @@ export default function Onboarding({
 
   return (
     <motion.div
+      id="onboarding"
       className="bg-pattern fixed inset-0 bg-black text-white/30"
       transition={pageTransition}
       initial={{ y: 0, opacity: 1 }}

@@ -17,6 +17,7 @@ export default function Content({
 }) {
   return (
     <motion.div
+      id="content"
       initial={{ y: "100%", opacity: 0 }}
       animate={{ y, opacity }}
       transition={pageTransition}
