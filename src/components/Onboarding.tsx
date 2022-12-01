@@ -39,21 +39,21 @@ export default function Onboarding({
           className="mx-auto grid h-full max-w-7xl grid-rows-3 place-items-center p-8 sm:text-center"
         >
           <div />
-          <div className="grid place-items-center gap-10">
+          <div className="grid max-w-4xl place-items-center gap-10">
             <motion.h1
               variants={textVariant}
-              className="w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl md:text-8xl"
+              className="w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl md:text-7xl"
             >
               Entdecke die unsichtbaren Berge der Schweiz
             </motion.h1>
             <motion.h2
               variants={textVariant}
-              className="max-w-5xl text-lg text-gray-400 sm:text-2xl"
+              className="text-lg text-gray-400 sm:text-xl"
             >
               {`${categories
                 .slice(0, -1)
                 .map((cat) => cat.label)
-                .join(", ")} und 
+                .join(", ")} und
               ${Object.values(categories).at(-1)?.label}. `}
               Die Schweizer Energieproduktion ist vielfältig. Finde heraus wo
               sich welche Kraftwerktypen befinden und wie viel Strom sie

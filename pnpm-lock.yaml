@@ -4,7 +4,7 @@ specifiers:
   '@fontsource/albert-sans': ^4.5.1
   '@headlessui/react': ^1.7.4
   '@radix-ui/react-slider': ^1.1.0
-  '@react-three/drei': ^9.45.1
+  '@react-three/drei': ^9.46.0
   '@react-three/fiber': ^8.9.1
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
@@ -36,7 +36,7 @@ dependencies:
   '@fontsource/albert-sans': 4.5.1
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-slider': 1.1.0_biqbaboplfbrettd7655fr4n2y
-  '@react-three/drei': 9.45.1_xa6xk36nauwxkzngvitxgjpnr4
+  '@react-three/drei': 9.46.0_xa6xk36nauwxkzngvitxgjpnr4
   '@react-three/fiber': 8.9.1_pvdsq7s4d5knbxbfttptgjiz3a
   clsx: 1.2.1
   framer-motion: 7.6.15_biqbaboplfbrettd7655fr4n2y
@@ -788,8 +788,8 @@ packages:
     resolution: {integrity: sha512-7I/qY8H7Enwasxr4jU6WmtNK+RZ4Z/XvSlDvjXFVe7ii1x0MoSlkw6pD7xuac8qrHQRm9BTcbZNyeeKApYsvCg==}
     dev: false
 
-  /@react-three/drei/9.45.1_xa6xk36nauwxkzngvitxgjpnr4:
-    resolution: {integrity: sha512-/OVJZbxOywLp7I01P5wTsllTzZxHZ3IRhW3NMyTsImn8M2NjqC5WxmsndbUIYZGJy4tminqmnvYSDkfR1ExdoQ==}
+  /@react-three/drei/9.46.0_xa6xk36nauwxkzngvitxgjpnr4:
+    resolution: {integrity: sha512-msde3VO6HyXyFVqM1qJoGaFGUBHZy+3+sT4JTqkM4XTplmHALSglPZkcSB7z2gENoScMnHwF3a3MPl/v0AGgLA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
       react: '>=18.0'
