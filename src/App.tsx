@@ -4,25 +4,29 @@ import { useCallback, useState } from "react";
 import Content from "./components/Content";
 import Onboarding from "./components/Onboarding";
 
-const skipOnboarding = false;
+const skipOnboarding = import.meta.env.DEV ? true : false;
+const hasSeenOnboarding =
+  skipOnboarding && window.localStorage.getItem("hasSeenOnboarding") === "true";
 
 export default function App() {
-  const [showMain, setShowMain] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(
+    true && !skipOnboarding && !hasSeenOnboarding
+  );
   const [y, setY] = useState<string | number>(skipOnboarding ? 0 : "100%");
   const [opacity, setOpacity] = useState(skipOnboarding ? 1 : 0);
   const scrollToHeatMap = useCallback(() => {
-    setShowMain(true);
+    setShowOnboarding(false && !skipOnboarding && !hasSeenOnboarding);
     setY(0);
     setOpacity(1);
+    !hasSeenOnboarding &&
+      window.localStorage.setItem("hasSeenOnboarding", "true");
   }, []);
   return (
     <>
       <AnimatePresence>
-        {!showMain && !skipOnboarding && (
-          <Onboarding scrollToHeatMap={scrollToHeatMap} />
-        )}
+        {showOnboarding && <Onboarding scrollToHeatMap={scrollToHeatMap} />}
       </AnimatePresence>
-      <Content y={y} opacity={opacity} />
+      <Content y={y} opacity={opacity} hasSeenOnboarding={hasSeenOnboarding} />
     </>
   );
 }

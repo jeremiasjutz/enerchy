@@ -1,5 +1,6 @@
 export const ASPECT_SWITZERLAND = 0.63;
 export const SIZE = 500;
+export const MAX_VALUE = 1_872_000;
 
 export const BOUNDARIES = {
   east: {

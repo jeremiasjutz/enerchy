@@ -1,8 +1,8 @@
 import pPlants from "../assets/productionPlants.json";
-import { ASPECT_SWITZERLAND, BOUNDARIES } from "../constants";
+import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE } from "../constants";
+import { useStore } from "../store";
 import { allProductionPlantCategories, ProductionPlant } from "../types";
 import {
-  cubicInterpolation,
   linearInterpolation,
   logarithmicInterpolation,
 } from "../utils/interpolations";
@@ -24,8 +24,12 @@ export default function generatePowerValueArray({
     () => new Array(inputArraySize).fill(0)
   );
 
-  for (const [east, north, kWh, , subCat] of productionPlants) {
+  const filteredProductionPlants = [];
+
+  for (const productionPlant of productionPlants) {
+    const [east, north, kWh, , subCat] = productionPlant;
     if (kWh >= min && kWh <= max && categories.includes(subCat)) {
+      filteredProductionPlants.push(productionPlant);
       const indexX = Math.round(
         linearInterpolation({
           number: east,
@@ -43,8 +47,8 @@ export default function generatePowerValueArray({
 
       const kwhInterpolated = logarithmicInterpolation({
         number: kWh,
-        inputRange: [0, 1_872_000],
-        outputRange: [0, 1_872_000],
+        inputRange: [0, MAX_VALUE],
+        outputRange: [0, MAX_VALUE],
       });
 
       inputArray[indexY][indexX] = Math.max(
@@ -53,6 +57,7 @@ export default function generatePowerValueArray({
       );
     }
   }
+  useStore.getState().setFilteredProductionPlants(filteredProductionPlants);
 
   return inputArray;
 }

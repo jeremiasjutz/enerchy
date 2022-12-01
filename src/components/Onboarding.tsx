@@ -9,11 +9,11 @@ import { useScrollToHeatMap } from "../hooks/useScrollToHeatMap";
 
 const labelArray = Object.values(productionPlantLabels);
 
-export default function Onboarding({
-  scrollToHeatMap,
-}: {
+interface OnboardingProps {
   scrollToHeatMap: () => void;
-}) {
+}
+
+export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
   const [contentVisible, setContentVisible] = useState(false);
 
   useScrollToHeatMap(scrollToHeatMap);
@@ -21,7 +21,7 @@ export default function Onboarding({
   return (
     <motion.div
       id="onboarding"
-      className="bg-pattern fixed inset-0 bg-black text-white/30"
+      className="bg-pattern fixed inset-0 bg-black text-white/20"
       transition={pageTransition}
       initial={{ y: 0, opacity: 1 }}
       exit={{ y: "-100%", opacity: 0 }}

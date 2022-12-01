@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useTexture } from "@react-three/drei";
 import { DoubleSide, Mesh, MeshStandardMaterial, RepeatWrapping } from "three";
-import gsap from "gsap";
+import gsap, { Power3 } from "gsap";
 import { useThree } from "@react-three/fiber";
 
 const duration = 1;
 const initialXRotation = Math.PI * -0.5;
-const ease = "power3.inOut";
+const ease = Power3.easeInOut;
 
 export default function LoadingLogo({
   onComplete,

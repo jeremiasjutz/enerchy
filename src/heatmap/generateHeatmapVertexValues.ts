@@ -1,4 +1,4 @@
-import { ASPECT_SWITZERLAND, SIZE } from "../constants";
+import { ASPECT_SWITZERLAND, MAX_VALUE, SIZE } from "../constants";
 
 export default function generateHeatmapVertexValues({
   array,
@@ -16,8 +16,7 @@ export default function generateHeatmapVertexValues({
   const halfOutputArrayScaleFactor = outputArrayScaleFactor / 2;
 
   const k = 1 / Math.pow((outputArrayScaleFactor * Math.sqrt(2)) / 2, 2);
-  let maxZ = 1_872_000;
-  // let maxZ = 0;
+  let maxZ = 0;
 
   const outputArray = Array.from(Array(outputArrayRowSize), () =>
     new Array(outputArrayColumnSize).fill(0)
@@ -46,13 +45,16 @@ export default function generateHeatmapVertexValues({
           }
         }
       }
-      // if (z > maxZ) {
-      //   maxZ = z;
-      // }
+      if (z > maxZ) {
+        maxZ = z;
+      }
 
       outputArray[outputArrayRowSize - y - 1][x] = z;
     }
   }
 
-  return outputArray.flat().map((number) => number / maxZ);
+  return {
+    vertexValues: outputArray.flat().map((number) => number / MAX_VALUE),
+    maxValueInSelection: maxZ,
+  };
 }

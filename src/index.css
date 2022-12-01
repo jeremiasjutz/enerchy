@@ -10,7 +10,7 @@
     bg-[image:linear-gradient(currentColor_1px,transparent_1px),linear-gradient(to_right,currentColor_1px,transparent_1px)];
   }
   .bg-pattern-sidebar{
-   @apply bg-[size:75px_75px] bg-[150px_150px]
+   @apply bg-[size:96px_96px] bg-[192px_192px]
    before:fixed before:inset-0 before:-z-10 before:bg-[image:radial-gradient(transparent,theme('colors.black')_60%)]
    bg-[image:linear-gradient(currentColor_1px,transparent_1px),linear-gradient(to_right,currentColor_1px,transparent_1px)];
   }

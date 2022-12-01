@@ -3,15 +3,17 @@ import { useStore } from "../../store";
 import { ProductionPlantCategory, productionPlantLabels } from "../../types";
 
 import {
+  ArrowDown,
   Atom,
   Droplet,
-  GasTank,
+  GasTankDrop,
   Leaf,
   OilIndustry,
   SunLight,
   Trash,
   Wind,
 } from "iconoir-react";
+import { useRef } from "react";
 
 interface CheckboxProps {
   labelKey: string;
@@ -24,6 +26,7 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
   const checked = categories.includes(type);
   const productionPlantLabel = productionPlantLabels[labelKey];
   const Icon = productionPlantIcons[labelKey];
+  const devAmount = useRef(~~(Math.random() * 10000));
 
   return (
     <div>
@@ -42,8 +45,8 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
       <label
         htmlFor={"category-checkbox-" + type}
         className={clsx(
-          "relative flex cursor-pointer items-center justify-between rounded-xl px-4 py-4 ",
-          "font-medium transition-all peer-focus-visible:ring-2 sm:px-6 sm:text-xl",
+          "relative flex cursor-pointer items-center gap-3 rounded-xl px-4 py-4 ",
+          "font-medium transition-all peer-focus-visible:ring-2 sm:text-xl",
           checked
             ? "bg-accent-900 text-accent ring-accent"
             : "bg-gray-900 text-gray-300 ring-gray-500"
@@ -56,10 +59,10 @@ export function Checkbox({ labelKey, type, amount }: CheckboxProps) {
             checked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
-          {amount ?? ~~(Math.random() * 10000)}
+          {amount ?? devAmount.current}
         </span>
-        <span>{productionPlantLabel}</span>
         <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+        <span>{productionPlantLabel}</span>
       </label>
     </div>
   );
@@ -72,6 +75,6 @@ export const productionPlantIcons: Record<string, typeof Droplet> = {
   Biomass: Leaf,
   Nuclear: Atom,
   Oil: OilIndustry,
-  Gas: GasTank,
+  Gas: GasTankDrop,
   Waste: Trash,
 };

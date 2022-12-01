@@ -20,10 +20,10 @@ export function PowerRangeRadioButtons() {
         Kraftwerk Leistung
       </RadioGroup.Label>
       <div className="grid grid-cols-2 gap-3">
-        {powerRanges.map((plan) => (
+        {powerRanges.map((powerRange) => (
           <RadioGroup.Option
-            key={plan.name}
-            value={plan}
+            key={powerRange.name}
+            value={powerRange}
             className={({ active, checked }) =>
               clsx(
                 "cursor-pointer rounded-xl px-4 py-4 ring-accent transition-colors focus:outline-none sm:px-6",
@@ -40,7 +40,7 @@ export function PowerRangeRadioButtons() {
                     checked ? "text-accent" : "text-gray-300"
                   }`}
                 >
-                  {plan.name}
+                  {powerRange.name}
                 </RadioGroup.Label>
                 <RadioGroup.Description
                   as="span"
@@ -49,8 +49,8 @@ export function PowerRangeRadioButtons() {
                   }`}
                 >
                   <span>
-                    {numberFormatter.format(plan.range[0])} -{" "}
-                    {numberFormatter.format(plan.range[1])}
+                    {numberFormatter.format(powerRange.range[0])} -{" "}
+                    {numberFormatter.format(powerRange.range[1])}
                     kWh
                   </span>
                 </RadioGroup.Description>

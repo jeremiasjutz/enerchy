@@ -21,7 +21,7 @@ export default function Controls() {
       transition={pageTransition}
       className={clsx(
         "fixed inset-y-0 z-10 w-full select-none sm:w-[30rem]",
-        "border-gray-900 bg-black/75 text-white/30 backdrop-blur-md sm:border-r"
+        "border-gray-900 bg-black/75 text-white/20 backdrop-blur-md sm:border-r"
       )}
     >
       <motion.button
