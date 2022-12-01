@@ -1,5 +1,9 @@
 import create from "zustand";
-import { ProductionPlant, ProductionPlantCategory } from "../types";
+import {
+  initialCategories,
+  ProductionPlantCategory,
+  ProductionPlant,
+} from "../types";
 
 interface State {
   minPower: number;
@@ -20,7 +24,7 @@ export const useStore = create<State>((set) => ({
   maxPower: 1000,
   filteredProductionPlants: [],
   largestPowerOutputInSelection: [],
-  categories: [ProductionPlantCategory.Water, ProductionPlantCategory.Solar],
+  categories: initialCategories,
   setMinPower: (minPower) => set({ minPower }),
   setMaxPower: (maxPower) => set({ maxPower }),
   setFilteredProductionPlants: (filteredProductionPlants) =>
@@ -33,8 +37,11 @@ export const useStore = create<State>((set) => ({
     }),
   toggleCategory: (category) =>
     set((state) => ({
-      categories: state.categories.includes(category)
-        ? state.categories.filter((cat) => cat !== category)
-        : [...state.categories, category],
+      categories: state.categories.map((cat) => {
+        if (cat.id === category.id) {
+          cat.isChecked = !cat.isChecked;
+        }
+        return cat;
+      }),
     })),
 }));

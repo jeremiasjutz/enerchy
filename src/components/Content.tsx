@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import HeatMap from "./HeatMap";
 import Controls from "./Controls";
+import Statistics from "./Statistics";
 import { motion, Transition } from "framer-motion";
 import { useRef, useState } from "react";
 
@@ -38,6 +39,7 @@ export default function Content({
       className="fixed inset-0"
     >
       <Controls />
+      <Statistics />
       <Canvas
         className="bg-black"
         camera={{

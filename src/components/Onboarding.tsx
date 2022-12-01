@@ -4,10 +4,8 @@ import { useState } from "react";
 
 import LoadingLogo from "./LoadingLogo";
 import { pageTransition } from "./Content";
-import { productionPlantLabels } from "../types";
 import { useScrollToHeatMap } from "../hooks/useScrollToHeatMap";
-
-const labelArray = Object.values(productionPlantLabels);
+import { useStore } from "../store";
 
 interface OnboardingProps {
   scrollToHeatMap: () => void;
@@ -15,6 +13,7 @@ interface OnboardingProps {
 
 export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
   const [contentVisible, setContentVisible] = useState(false);
+  const categories = useStore((state) => state.categories);
 
   useScrollToHeatMap(scrollToHeatMap);
 
@@ -51,9 +50,11 @@ export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
               variants={textVariant}
               className="max-w-5xl text-lg text-gray-400 sm:text-2xl"
             >
-              {`${labelArray.slice(0, -1).join(", ")} und ${Object.values(
-                labelArray
-              ).at(-1)}. `}
+              {`${categories
+                .slice(0, -1)
+                .map((cat) => cat.label)
+                .join(", ")} und 
+              ${Object.values(categories).at(-1)?.label}. `}
               Die Schweizer Energieproduktion ist vielfältig. Finde heraus wo
               sich welche Kraftwerktypen befinden und wie viel Strom sie
               produzieren!

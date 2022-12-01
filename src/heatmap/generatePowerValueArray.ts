@@ -1,7 +1,7 @@
 import pPlants from "../assets/productionPlants.json";
 import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE } from "../constants";
 import { useStore } from "../store";
-import { allProductionPlantCategories, ProductionPlant } from "../types";
+import { ProductionPlant, ProductionPlantCategory } from "../types";
 import {
   linearInterpolation,
   logarithmicInterpolation,
@@ -12,12 +12,12 @@ export default function generatePowerValueArray({
   inputArraySize = 100,
   min = 0,
   max = 1000,
-  categories = allProductionPlantCategories,
+  categories = [],
 }: {
   inputArraySize: number;
   min?: number;
   max?: number;
-  categories?: number[];
+  categories?: ProductionPlantCategory[];
 }) {
   const inputArray = Array.from(
     Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
@@ -28,7 +28,11 @@ export default function generatePowerValueArray({
 
   for (const productionPlant of productionPlants) {
     const [east, north, kWh, , subCat] = productionPlant;
-    if (kWh >= min && kWh <= max && categories.includes(subCat)) {
+    if (
+      kWh >= min &&
+      kWh <= max &&
+      categories.some((cat) => cat.id === subCat && cat.isChecked)
+    ) {
       filteredProductionPlants.push(productionPlant);
       const indexX = Math.round(
         linearInterpolation({
