@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { Color, Float32BufferAttribute, Mesh } from "three";
 
 import { useStore } from "../store";
-import { linearInterpolation } from "../utils/interpolations";
 import { ASPECT_SWITZERLAND, SIZE } from "../constants";
 import {
   generatePowerValueArray,

@@ -16,7 +16,7 @@ export function PowerRangeRadioButtons() {
 
   return (
     <RadioGroup value={selected} onChange={onChange}>
-      <RadioGroup.Label as="h1" className="mb-4 text-3xl font-bold text-white">
+      <RadioGroup.Label as="h1" className="mb-4 text-xl font-bold text-white">
         Kraftwerk Leistung
       </RadioGroup.Label>
       <div className="grid grid-cols-2 gap-3">
@@ -26,7 +26,7 @@ export function PowerRangeRadioButtons() {
             value={plan}
             className={({ active, checked }) =>
               clsx(
-                "cursor-pointer rounded-xl px-4 py-4 ring-accent transition-colors focus:outline-none sm:px-6",
+                "cursor-pointer rounded-xl px-4 py-3 ring-accent transition-colors focus:outline-none sm:px-4",
                 active && "transition-shadow focus-visible:ring-2",
                 checked ? "bg-accent-900" : "bg-gray-900"
               )
@@ -36,7 +36,7 @@ export function PowerRangeRadioButtons() {
               <div className="leading-none">
                 <RadioGroup.Label
                   as="p"
-                  className={`font-medium transition-colors sm:text-xl ${
+                  className={`font-medium transition-colors sm:text-sm ${
                     checked ? "text-accent" : "text-gray-300"
                   }`}
                 >
@@ -44,7 +44,7 @@ export function PowerRangeRadioButtons() {
                 </RadioGroup.Label>
                 <RadioGroup.Description
                   as="span"
-                  className={`whitespace-nowrap text-xs transition-colors sm:text-sm ${
+                  className={`whitespace-nowrap text-xs transition-colors sm:text-xs ${
                     checked ? "text-accent-600" : "text-gray-500"
                   }`}
                 >

@@ -4,23 +4,21 @@ import { useState } from "react";
 import { ArrowLeft } from "iconoir-react";
 
 import { pageTransition } from "../Content";
-import {
-  RenewableProductionPlantCategories,
-  ProductionPlantCategory,
-  NonRenewableProductionPlantCategories,
-} from "../../types";
 import { Checkbox } from "./Checkbox";
 import { PowerRangeRadioButtons } from "./PowerRangeRadioButtons";
+import { useStore } from "../../store";
 
 export default function Controls() {
   const [isControlsOpen, setIsControlsOpen] = useState(true);
+  const categories = useStore((state) => state.categories);
+
   return (
     <motion.aside
       initial={{ x: 0 }}
       animate={{ x: isControlsOpen ? 0 : "-100%" }}
       transition={pageTransition}
       className={clsx(
-        "fixed inset-y-0 z-10 w-full select-none sm:w-[30rem]",
+        "fixed inset-y-0 z-10 w-full select-none sm:w-[24rem]",
         "border-gray-900 bg-black/75 text-white/30 backdrop-blur-md sm:border-r"
       )}
     >
@@ -53,28 +51,30 @@ export default function Controls() {
           <ArrowLeft />
         </motion.div>
       </motion.button>
-      <div className="bg-pattern-sidebar absolute inset-0 -z-10 overflow-y-auto p-8">
+      <div className="bg-pattern-sidebar absolute inset-0 -z-10 overflow-y-auto p-6">
         <div className="grid gap-12">
           <PowerRangeRadioButtons />
           <div>
-            <h1 className="mb-4 text-3xl font-bold text-white">
-              Kratfwerk Typ
-            </h1>
-            <h2 className="mb-2 text-lg font-medium text-white">
+            <h1 className="mb-4 text-xl font-bold text-white">Kraftwerk Typ</h1>
+            <h2 className="text-md mb-3 font-medium text-white">
               Erneuerbare Energie
             </h2>
-            <div className="mb-6 grid grid-cols-2 gap-x-3 gap-y-4">
-              {renewableProductionPlantCategories.map(([labelKey, type]) => (
-                <Checkbox labelKey={labelKey} type={type} key={labelKey} />
-              ))}
+            <div className="mb-6 grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
+              {categories.map((category) => {
+                if (category.isRenewableEnergy) {
+                  return <Checkbox category={category} />;
+                }
+              })}
             </div>
-            <h2 className="mb-2 text-lg font-medium text-white">
+            <h2 className="text-md mb-3 font-medium text-white">
               Nicht erneuerbare Energie
             </h2>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-4">
-              {nonRenewableProductionPlantCategories.map(([labelKey, type]) => (
-                <Checkbox labelKey={labelKey} type={type} key={labelKey} />
-              ))}
+            <div className="grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
+              {categories.map((category) => {
+                if (!category.isRenewableEnergy) {
+                  return <Checkbox category={category} />;
+                }
+              })}
             </div>
           </div>
         </div>
@@ -82,22 +82,3 @@ export default function Controls() {
     </motion.aside>
   );
 }
-
-const lengthRenewable = Object.keys(RenewableProductionPlantCategories).length;
-const lengthNonRenewable = Object.keys(
-  NonRenewableProductionPlantCategories
-).length;
-
-const renewableProductionPlantCategories = Object.entries(
-  RenewableProductionPlantCategories
-).slice(lengthRenewable / 2, lengthRenewable) as unknown as [
-  string,
-  ProductionPlantCategory
-][];
-
-const nonRenewableProductionPlantCategories = Object.entries(
-  NonRenewableProductionPlantCategories
-).slice(lengthNonRenewable / 2, lengthNonRenewable) as unknown as [
-  string,
-  ProductionPlantCategory
-][];
