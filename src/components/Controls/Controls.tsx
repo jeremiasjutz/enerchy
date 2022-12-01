@@ -18,8 +18,8 @@ export default function Controls() {
       animate={{ x: isControlsOpen ? 0 : "-100%" }}
       transition={pageTransition}
       className={clsx(
-        "fixed inset-y-0 z-10 w-full select-none sm:w-[24rem]",
-        "border-gray-900 bg-black/75 text-white/20 backdrop-blur-md sm:border-r"
+        "fixed inset-y-0 z-10 w-full select-none border-gray-900 sm:w-auto",
+        "bg-black/75 text-white/20 backdrop-blur-md sm:border-r"
       )}
     >
       <motion.button
@@ -35,7 +35,7 @@ export default function Controls() {
         }}
         transition={pageTransition}
         className={clsx(
-          "absolute top-0 right-0 border-gray-500 bg-gray-900",
+          "absolute top-0 right-0 z-10 border-gray-500 bg-gray-900",
           "p-4 text-white focus:outline-none focus-visible:border-b-2",
           isControlsOpen
             ? "focus-visible:border-l-2"
@@ -51,8 +51,8 @@ export default function Controls() {
           <ArrowLeft />
         </motion.div>
       </motion.button>
-      <div className="bg-pattern-sidebar absolute inset-0 -z-10 overflow-y-auto p-6">
-        <div className="grid gap-12">
+      <div className="bg-pattern-sidebar h-full overflow-y-auto p-6">
+        <div className="relative grid gap-12">
           <PowerRangeRadioButtons />
           <div>
             <h1 className="mb-4 text-xl font-bold text-white">Kraftwerk Typ</h1>
@@ -62,7 +62,7 @@ export default function Controls() {
             <div className="mb-6 grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
               {categories.map((category) => {
                 if (category.isRenewableEnergy) {
-                  return <Checkbox category={category} />;
+                  return <Checkbox key={category.id} category={category} />;
                 }
               })}
             </div>
@@ -72,7 +72,7 @@ export default function Controls() {
             <div className="grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
               {categories.map((category) => {
                 if (!category.isRenewableEnergy) {
-                  return <Checkbox category={category} />;
+                  return <Checkbox key={category.id} category={category} />;
                 }
               })}
             </div>

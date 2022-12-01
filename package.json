@@ -14,7 +14,7 @@
     "@fontsource/albert-sans": "^4.5.1",
     "@headlessui/react": "^1.7.4",
     "@radix-ui/react-slider": "^1.1.0",
-    "@react-three/drei": "^9.45.1",
+    "@react-three/drei": "^9.46.0",
     "@react-three/fiber": "^8.9.1",
     "clsx": "^1.2.1",
     "framer-motion": "^7.6.15",

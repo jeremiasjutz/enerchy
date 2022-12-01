@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import Content from "./components/Content";
 import Onboarding from "./components/Onboarding";
 
-const skipOnboarding = import.meta.env.DEV ? true : false;
+const skipOnboarding = import.meta.env.DEV ? false : false;
 const hasSeenOnboarding =
   skipOnboarding && window.localStorage.getItem("hasSeenOnboarding") === "true";
 
