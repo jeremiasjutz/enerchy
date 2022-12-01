@@ -42,7 +42,7 @@ export function Checkbox({ category }: CheckboxProps) {
             category.isChecked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
-          {category.currentAmount ?? ~~(Math.random() * 10000)}
+          {category.currentAmount}
         </span>
         <span>{category.label}</span>
       </label>

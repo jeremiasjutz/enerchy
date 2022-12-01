@@ -13,6 +13,7 @@ interface State {
   categories: ProductionPlantCategory[];
   setMinPower: (minPower: number) => void;
   setMaxPower: (maxPower: number) => void;
+  setCategories: (categories: ProductionPlantCategory[]) => void;
   setFilteredProductionPlants: (
     filteredProductionPlants: ProductionPlant[]
   ) => void;
@@ -27,6 +28,7 @@ export const useStore = create<State>((set) => ({
   categories: initialCategories,
   setMinPower: (minPower) => set({ minPower }),
   setMaxPower: (maxPower) => set({ maxPower }),
+  setCategories: (categories) => set({ categories }),
   setFilteredProductionPlants: (filteredProductionPlants) =>
     set({
       filteredProductionPlants,
