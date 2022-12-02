@@ -112,9 +112,9 @@ export default function Controls() {
             />
             <label
               htmlFor="toggleStatisticsPanel"
-              className="flex cursor-pointer gap-2 peer-focus-visible:[&>*]:ring-2 "
+              className="flex cursor-pointer items-center gap-2 peer-checked:[&>div]:bg-accent-900 peer-focus-visible:[&>div]:ring-2"
             >
-              <div className="grid h-6 w-6 place-items-center rounded-md bg-accent-900 text-accent ring-accent">
+              <div className="grid h-6 w-6 place-items-center rounded-md bg-gray-900 text-accent ring-accent transition-all">
                 <motion.div
                   animate={{
                     scale: isStatisticsPanelOpen ? 1 : 0,
@@ -124,7 +124,9 @@ export default function Controls() {
                   <Check className="h-5 w-5" />
                 </motion.div>
               </div>
-              <span className="font-medium">Statistik sichtbar</span>
+              <span className="font-medium leading-none">
+                Statistik sichtbar
+              </span>
             </label>
           </div>
         </div>
