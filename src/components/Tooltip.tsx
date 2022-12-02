@@ -28,7 +28,7 @@ export function Tooltip({ content }: { content: string }) {
         ref={reference}
         {...getReferenceProps()}
       >
-        <InfoEmpty className="h-5 w-5" />
+        <InfoEmpty strokeWidth={2} className="h-5 w-5" />
       </button>
       <AnimatePresence>
         {open && (

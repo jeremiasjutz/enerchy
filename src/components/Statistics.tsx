@@ -1,15 +1,14 @@
 import { useStore } from "../store";
 import { motion } from "framer-motion";
 import { numberFormatter } from "../utils";
+import clsx from "clsx";
 
 export default function Statistics() {
   const categories = useStore((state) => state.categories);
   const checkedCategories = useStore((state) => state.checkedCategories);
   const totalCapacityOfAllCategories = categories.reduce(
-    (prev, current) =>
-      checkedCategories.includes(current.id)
-        ? prev + current.totalCapacity
-        : prev,
+    (prev, cur) =>
+      checkedCategories.includes(cur.id) ? prev + cur.totalCapacity : prev,
     0
   );
 
@@ -30,34 +29,34 @@ export default function Statistics() {
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4 text-gray-400">
         {categories.map((category) => {
+          const percentage =
+            category.totalCapacity / totalCapacityOfAllCategories || 0;
           return (
             <div
               key={category.id}
-              className={
-                !checkedCategories.includes(category.id) ? "opacity-50" : ""
-              }
+              className={clsx(
+                "transition-opacity",
+                !checkedCategories.includes(category.id) ||
+                  category.currentAmount === 0
+                  ? "opacity-40 grayscale"
+                  : ""
+              )}
             >
               <div className="mb-1 flex justify-between text-xs">
-                <span>{category.label} </span>
+                <span>{category.label}</span>
                 <span>
-                  {Math.round(
-                    (category.totalCapacity / totalCapacityOfAllCategories ||
-                      0) * 1000
-                  ) /
-                    10 +
-                    "%"}
+                  {percentage.toLocaleString("de-CH", {
+                    style: "percent",
+                    maximumFractionDigits: 1,
+                  })}
                 </span>
               </div>
               <div className="flex h-2 overflow-hidden rounded-full bg-accent-900">
                 <motion.div
                   animate={{
-                    width:
-                      (category.totalCapacity / totalCapacityOfAllCategories ||
-                        0) *
-                        100 +
-                      "%",
+                    width: percentage * 100 + "%",
                   }}
-                  className="rounded-full bg-accent"
+                  className="max-w-full rounded-full bg-accent"
                 />
               </div>
             </div>

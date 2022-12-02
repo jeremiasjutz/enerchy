@@ -154,7 +154,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       gsap.to(textRef.current.position, {
         x,
         y,
-        z: z + 0.04,
+        z: z + 0.045,
         ease,
         duration,
       });
@@ -170,7 +170,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         maxDistance={2}
       />
       <ambientLight />
-      <pointLight color={0xffffff} position={[-3, 3, 0]} />
+      <pointLight color={0xffc700} position={[0, 1, 2]} intensity={0.75} />
       {maxPowerOutput.length && (
         <>
           <Suspense fallback={null}>
@@ -179,9 +179,9 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
               position={[
                 initialPosition.x,
                 initialPosition.y,
-                initialPosition.z + 0.04,
+                initialPosition.z + 0.045,
               ]}
-              fontSize={0.0125}
+              fontSize={0.0175}
               up={[0, 0, 1]}
               font={albertSansUrl}
               anchorX="center"
@@ -200,7 +200,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
             rotation-x={Math.PI / 2}
           >
             <cylinderGeometry args={[0.005, 0, 0.01, 32]} />
-            <meshStandardMaterial color="white" transparent opacity={0.8} />
+            <meshStandardMaterial color={0xeeeeee} />
           </mesh>
         </>
       )}
@@ -222,7 +222,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
           ]}
         />
         <meshStandardMaterial
-          roughness={0}
+          roughness={1}
           vertexColors
           opacity={1}
           transparent
