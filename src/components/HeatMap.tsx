@@ -1,6 +1,6 @@
 import gsap, { Power3 } from "gsap";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { OrbitControls, Text, useTexture } from "@react-three/drei";
 import { Color, Float32BufferAttribute, Mesh } from "three";
 import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-900-normal.woff";
@@ -41,10 +41,22 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const maxPower = useStore((state) => state.maxPower);
   const checkedCategories = useStore((state) => state.checkedCategories);
   const maxPowerOutput = useStore((state) => state.maxPowerOutput);
+  const isBorderVisible = useStore((state) => state.isBorderVisible);
+  const [startLookingAtCamera, setStartLookingAtCamera] = useState(false);
 
   useFrame(() => {
-    textRef.current?.lookAt(camera.position);
+    startLookingAtCamera
+      ? textRef.current?.lookAt(camera.position)
+      : textRef.current?.lookAt(0, -0.5, 0.3);
   });
+
+  useEffect(() => {
+    if (mesh.current) {
+      gsap.to(mesh.current.material, {
+        opacity: isBorderVisible ? 0.75 : 1,
+      });
+    }
+  }, [isBorderVisible]);
 
   useEffect(() => {
     if (isReady) {
@@ -53,6 +65,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         z: 0.3,
         ease,
         duration: 3,
+        onComplete: () => setStartLookingAtCamera(true),
       });
     }
   }, [isReady]);

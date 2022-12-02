@@ -1,49 +1,46 @@
-import clsx from "clsx";
-import { useStore } from "../../store";
-import { ProductionPlantCategory } from "../../types";
-import { numberFormatter } from "../../utils";
+import { motion } from "framer-motion";
+import { Check } from "iconoir-react";
 
-interface CheckboxProps {
-  category: ProductionPlantCategory;
-}
-export function Checkbox({ category }: CheckboxProps) {
-  const toggleCategory = useStore((state) => state.toggleCheckedCategory);
-  const checkedCategories = useStore((state) => state.checkedCategories);
-  const Icon = category.icon;
-  const isChecked =
-    checkedCategories.includes(category.id) && category.currentAmount > 0;
-  const isDisabled = category.currentAmount === 0;
-
+export function Checkbox({
+  checked,
+  onChange,
+  label,
+  htmlFor,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label: string;
+  htmlFor: string;
+}) {
   return (
-    <div>
+    <div className="text-white">
       <input
-        id={"category-checkbox-" + category.id}
         type="checkbox"
+        id={htmlFor}
         className="peer sr-only"
-        checked={isChecked}
-        disabled={isDisabled}
-        onChange={() => toggleCategory(category.id)}
+        checked={checked}
+        onChange={onChange}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            toggleCategory(category.id);
+            onChange();
           }
         }}
       />
       <label
-        htmlFor={"category-checkbox-" + category.id}
-        className="relative flex cursor-pointer items-center rounded-xl bg-gray-900 px-4 py-3 font-medium text-gray-300 ring-gray-500 transition-all peer-checked:bg-accent-900 peer-checked:text-accent peer-checked:ring-accent peer-focus-visible:ring-2 peer-disabled:opacity-50 sm:px-4"
+        htmlFor={htmlFor}
+        className="flex cursor-pointer items-center gap-2 peer-checked:[&>div]:bg-accent-900 peer-focus-visible:[&>div]:ring-2"
       >
-        <Icon className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
-        <span
-          className={clsx(
-            "absolute top-0.5 right-2 -translate-y-1/2 rounded-md",
-            "px-2 py-px text-xs font-semibold transition-colors",
-            isChecked ? "bg-accent-800" : "bg-gray-800"
-          )}
-        >
-          {numberFormatter.format(category.currentAmount)}
-        </span>
-        <span>{category.label}</span>
+        <div className="grid h-6 w-6 place-items-center rounded-md bg-gray-900 text-accent ring-accent transition-all">
+          <motion.div
+            animate={{
+              scale: checked ? 1 : 0,
+              opacity: checked ? 1 : 0,
+            }}
+          >
+            <Check className="h-5 w-5" />
+          </motion.div>
+        </div>
+        <span className="font-medium leading-none">{label}</span>
       </label>
     </div>
   );

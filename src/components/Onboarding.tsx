@@ -20,7 +20,7 @@ export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
   return (
     <motion.div
       id="onboarding"
-      className="bg-pattern fixed inset-0 bg-black text-white/20"
+      className="bg-pattern fixed inset-0 bg-black text-gray-800"
       transition={pageTransition}
       initial={{ y: 0, opacity: 1 }}
       exit={{ y: "-100%", opacity: 0 }}
