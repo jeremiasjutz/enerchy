@@ -188,7 +188,10 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
               anchorX="center"
               anchorY="middle"
             >
-              {maxPowerOutput[2].toLocaleString("de-CH")} kWh
+              {maxPowerOutput[2].toLocaleString("de-CH", {
+                maximumFractionDigits: 0,
+              })}{" "}
+              kWh
             </Text>
           </Suspense>
           <mesh
