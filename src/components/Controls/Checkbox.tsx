@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useStore } from "../../store";
 import { ProductionPlantCategory } from "../../types";
+import { numberFormatter } from "../../utils";
 
 interface CheckboxProps {
   category: ProductionPlantCategory;
@@ -10,6 +11,7 @@ export function Checkbox({ category }: CheckboxProps) {
   const checkedCategories = useStore((state) => state.checkedCategories);
   const Icon = category.icon;
   const isChecked = checkedCategories.includes(category.id);
+  const isDisabled = category.currentAmount === 0;
 
   return (
     <div>
@@ -18,6 +20,7 @@ export function Checkbox({ category }: CheckboxProps) {
         type="checkbox"
         className="peer sr-only"
         checked={isChecked}
+        disabled={isDisabled}
         onChange={() => toggleCategory(category.id)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -32,7 +35,8 @@ export function Checkbox({ category }: CheckboxProps) {
           "font-medium transition-all peer-focus-visible:ring-2 sm:px-4",
           isChecked
             ? "bg-accent-900 text-accent ring-accent"
-            : "bg-gray-900 text-gray-300 ring-gray-500"
+            : "bg-gray-900 text-gray-300 ring-gray-500",
+          isDisabled && "opacity-50"
         )}
       >
         <Icon className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
@@ -44,7 +48,7 @@ export function Checkbox({ category }: CheckboxProps) {
             isChecked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
-          {category.currentAmount}
+          {numberFormatter.format(category.currentAmount)}
         </span>
         <span>{category.label}</span>
       </label>

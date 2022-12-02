@@ -18,7 +18,7 @@ export default function Controls() {
       animate={{ x: isControlsOpen ? 0 : "-100%" }}
       transition={pageTransition}
       className={clsx(
-        "fixed inset-y-0 z-10 w-full select-none border-gray-900 sm:w-auto",
+        "fixed inset-y-0 z-20 w-full select-none border-gray-900 sm:w-auto",
         "bg-black/75 text-white/20 backdrop-blur-md sm:border-r"
       )}
     >
