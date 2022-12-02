@@ -73,7 +73,8 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
           value * scale
         );
       }
-      color.setHSL(0.05, 1, (value * MAX_VALUE) / maxValueInSelection);
+
+      color.setHSL(0.05, 1, (value * MAX_VALUE) / maxValueInSelection || 0);
       colors.push(color.r, color.g, color.b);
     }
 

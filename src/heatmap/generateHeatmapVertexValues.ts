@@ -22,6 +22,12 @@ export default function generateHeatmapVertexValues({
     new Array(outputArrayColumnSize).fill(0)
   );
 
+  if (array.flat().every((num) => num === 0))
+    return {
+      vertexValues: outputArray.flat(),
+      maxValueInSelection: 0,
+    };
+
   for (let y = 0; y < outputArrayRowSize; y++) {
     for (let x = 0; x < outputArrayColumnSize; x++) {
       let z = 0;

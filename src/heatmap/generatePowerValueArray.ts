@@ -23,47 +23,51 @@ export default function generatePowerValueArray({
     Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
     () => new Array(inputArraySize).fill(0)
   );
-
   const filteredProductionPlants = [];
   let localCategories = useStore.getState().categories.map((cat) => {
-    cat.currentAmount = 0;
-    cat.totalCapacity = 0;
+    if (checkedCategories.length > 0) {
+      cat.currentAmount = 0;
+      cat.totalCapacity = 0;
+    }
     return cat;
   });
+  if (checkedCategories.length > 0) {
+    for (const productionPlant of productionPlants) {
+      const [east, north, kWh, , subCat] = productionPlant;
 
-  for (const productionPlant of productionPlants) {
-    const [east, north, kWh, , subCat] = productionPlant;
-    if (kWh >= min && kWh <= max) {
-      const index = localCategories.findIndex((cat) => cat.id === subCat);
-      localCategories[index].totalCapacity += kWh;
-      localCategories[index].currentAmount++;
-      if (checkedCategories.includes(subCat)) {
-        filteredProductionPlants.push(productionPlant);
-        const indexX = Math.round(
-          linearInterpolation({
-            number: east,
-            inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
-            outputRange: [0, inputArraySize - 1],
-          })
-        );
-        const indexY = Math.round(
-          linearInterpolation({
-            number: north,
-            inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
-            outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
-          })
-        );
+      if (kWh >= min && kWh <= max) {
+        const index = localCategories.findIndex((cat) => cat.id === subCat);
+        localCategories[index].totalCapacity += kWh;
+        localCategories[index].currentAmount++;
 
-        const kwhInterpolated = logarithmicInterpolation({
-          number: kWh,
-          inputRange: [0, MAX_VALUE],
-          outputRange: [0, MAX_VALUE],
-        });
+        if (checkedCategories.includes(subCat)) {
+          filteredProductionPlants.push(productionPlant);
+          const indexX = Math.round(
+            linearInterpolation({
+              number: east,
+              inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
+              outputRange: [0, inputArraySize - 1],
+            })
+          );
+          const indexY = Math.round(
+            linearInterpolation({
+              number: north,
+              inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
+              outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
+            })
+          );
 
-        inputArray[indexY][indexX] = Math.max(
-          kwhInterpolated,
-          inputArray[indexY][indexX]
-        );
+          const kwhInterpolated = logarithmicInterpolation({
+            number: kWh,
+            inputRange: [0, MAX_VALUE],
+            outputRange: [0, MAX_VALUE],
+          });
+
+          inputArray[indexY][indexX] = Math.max(
+            kwhInterpolated,
+            inputArray[indexY][indexX]
+          );
+        }
       }
     }
   }
