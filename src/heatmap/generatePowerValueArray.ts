@@ -37,10 +37,11 @@ export default function generatePowerValueArray({
 
       if (kWh >= min && kWh <= max) {
         const index = localCategories.findIndex((cat) => cat.id === subCat);
-        localCategories[index].totalCapacity += kWh;
         localCategories[index].currentAmount++;
 
         if (checkedCategories.includes(subCat)) {
+          localCategories[index].totalCapacity += kWh;
+
           filteredProductionPlants.push(productionPlant);
           const indexX = Math.round(
             linearInterpolation({
