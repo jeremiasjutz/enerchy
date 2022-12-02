@@ -19,6 +19,7 @@ interface State {
   setFilteredProductionPlants: (
     filteredProductionPlants: ProductionPlant[]
   ) => void;
+  setAllCheckedCategories: (type: "renewable" | "nonrenewable") => void;
   toggleCheckedCategory: (category: ProductionPlantCategoryId) => void;
 }
 
@@ -41,6 +42,30 @@ export const useStore = create<State>((set) => ({
       maxPowerOutput: filteredProductionPlants.reduce((prev, cur) =>
         prev[2] > cur[2] ? prev : cur
       ),
+    }),
+  setAllCheckedCategories: (type) =>
+    set((state) => {
+      const checkedCategories = [...state.checkedCategories];
+      switch (type) {
+        case "renewable":
+          state.categories
+            .filter((cat) => cat.isRenewableEnergy && cat.currentAmount > 0)
+            .forEach(
+              (cat) =>
+                !checkedCategories.includes(cat.id) &&
+                checkedCategories.push(cat.id)
+            );
+          break;
+        case "nonrenewable":
+          state.categories
+            .filter((cat) => !cat.isRenewableEnergy && cat.currentAmount > 0)
+            .forEach(
+              (cat) =>
+                !checkedCategories.includes(cat.id) &&
+                checkedCategories.push(cat.id)
+            );
+      }
+      return { checkedCategories };
     }),
   toggleCheckedCategory: (category) =>
     set((state) => ({

@@ -11,6 +11,9 @@ import { useStore } from "../../store";
 export default function Controls() {
   const [isControlsOpen, setIsControlsOpen] = useState(true);
   const categories = useStore((state) => state.categories);
+  const setAllCheckedCategories = useStore(
+    (state) => state.setAllCheckedCategories
+  );
 
   return (
     <motion.aside
@@ -56,9 +59,15 @@ export default function Controls() {
           <PowerRangeRadioButtons />
           <div>
             <h1 className="mb-4 text-xl font-bold text-white">Kraftwerk Typ</h1>
-            <h2 className="text-md mb-3 font-medium text-white">
-              Erneuerbare Energie
-            </h2>
+            <div className="mb-3 flex items-center justify-between font-medium">
+              <h2 className="text-md text-white">Erneuerbare Energie</h2>
+              <button
+                className="text-xs text-gray-400"
+                onClick={() => setAllCheckedCategories("renewable")}
+              >
+                Alle auswählen
+              </button>
+            </div>
             <div className="mb-6 grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
               {categories.map((category) => {
                 if (category.isRenewableEnergy) {
@@ -66,9 +75,15 @@ export default function Controls() {
                 }
               })}
             </div>
-            <h2 className="text-md mb-3 font-medium text-white">
-              Nicht erneuerbare Energie
-            </h2>
+            <div className="mb-3 flex items-center justify-between font-medium">
+              <h2 className="text-md text-white">Nicht erneuerbare Energie</h2>
+              <button
+                className="text-xs text-gray-400"
+                onClick={() => setAllCheckedCategories("nonrenewable")}
+              >
+                Alle auswählen
+              </button>
+            </div>
             <div className="grid grid-cols-2 gap-x-3 gap-y-4 text-sm">
               {categories.map((category) => {
                 if (!category.isRenewableEnergy) {

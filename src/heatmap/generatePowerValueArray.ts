@@ -72,7 +72,9 @@ export default function generatePowerValueArray({
       }
     }
   }
-  useStore.getState().setFilteredProductionPlants(filteredProductionPlants);
+  if (filteredProductionPlants.length) {
+    useStore.getState().setFilteredProductionPlants(filteredProductionPlants);
+  }
   useStore.getState().setCategories(localCategories);
 
   return inputArray;
