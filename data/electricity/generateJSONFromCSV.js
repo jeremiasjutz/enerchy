@@ -23,11 +23,12 @@ const filePathTranslationsJson = join(
   "translations"
 );
 
-createProductionPlantsJsonFile();
+createProductionPlantsAndTotalCapacityJsonFile();
 createMainCategoriesJsonFile();
 subCategoriesJsonFile();
 
-async function createProductionPlantsJsonFile() {
+async function createProductionPlantsAndTotalCapacityJsonFile() {
+  let totalCapacity = 0;
   let productionPlants = await csv().fromFile(
     `${filePathCsv}/ElectricityProductionPlant.csv`
   );
@@ -45,10 +46,12 @@ async function createProductionPlantsJsonFile() {
   });
 
   for (let item of productionPlants) {
+    const totalPower = parseFloat(item.TotalPower);
+    totalCapacity += totalPower;
     dataArray.push([
       +item._x,
       +item._y,
-      parseFloat(item.TotalPower),
+      totalPower,
       +item.MainCategory.replace("maincat_", ""),
       +item.SubCategory.replace("subcat_", ""),
       item.Canton,
@@ -61,6 +64,16 @@ async function createProductionPlantsJsonFile() {
       JSON.stringify(dataArray)
     );
     console.info("productionPlants.json written successfully");
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
+    await writeFile(
+      `${filePathProductionPlantsJson}/totalCapacity.json`,
+      JSON.stringify(parseInt(totalCapacity))
+    );
+    console.info("totalCapacity.json written successfully");
   } catch (error) {
     console.error(error);
   }

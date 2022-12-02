@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useStore } from "../../store";
 import { ProductionPlantCategory } from "../../types";
+import { numberFormatter } from "../../utils";
 
 interface CheckboxProps {
   category: ProductionPlantCategory;
@@ -44,7 +45,7 @@ export function Checkbox({ category }: CheckboxProps) {
             isChecked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
-          {category.currentAmount}
+          {numberFormatter.format(category.currentAmount)}
         </span>
         <span>{category.label}</span>
       </label>

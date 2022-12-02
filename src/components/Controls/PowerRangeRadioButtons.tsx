@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { useStore } from "../../store";
+import { numberFormatter } from "../../utils";
 
 export function PowerRangeRadioButtons() {
   const [selected, setSelected] = useState(powerRanges[0]);
@@ -81,4 +82,3 @@ export const powerRanges = [
     range: [0, 2_000_000],
   },
 ];
-const numberFormatter = Intl.NumberFormat("de-CH");
