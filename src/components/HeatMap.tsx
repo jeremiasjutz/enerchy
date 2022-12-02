@@ -21,7 +21,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   );
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
-  const categories = useStore((state) => state.categories);
+  const checkedCategories = useStore((state) => state.checkedCategories);
 
   useEffect(() => {
     if (isReady) {
@@ -47,7 +47,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         inputArraySize,
         min: minPower,
         max: maxPower,
-        categories,
+        checkedCategories,
       }),
     });
 
@@ -103,7 +103,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         },
       });
     }
-  }, [minPower, maxPower, categories]);
+  }, [minPower, maxPower, checkedCategories]);
 
   return (
     <>

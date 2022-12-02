@@ -1,7 +1,7 @@
 import {
   Atom,
   Droplet,
-  GasTank,
+  GasTankDrop,
   Leaf,
   OilIndustry,
   SunLight,
@@ -26,7 +26,6 @@ export type ProductionPlantCategory = {
   id: ProductionPlantCategoryId;
   label: string;
   icon: typeof Droplet;
-  isChecked: boolean;
   isRenewableEnergy: boolean;
   currentAmount: number;
   totalCapacity: number;
@@ -39,7 +38,6 @@ export const initialCategories = [
     icon: Droplet,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: true,
     isRenewableEnergy: true,
   },
   {
@@ -48,7 +46,6 @@ export const initialCategories = [
     icon: SunLight,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: true,
     isRenewableEnergy: true,
   },
   {
@@ -57,7 +54,6 @@ export const initialCategories = [
     icon: Wind,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: true,
   },
   {
@@ -66,7 +62,6 @@ export const initialCategories = [
     icon: Leaf,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: true,
   },
   {
@@ -75,7 +70,6 @@ export const initialCategories = [
     icon: Atom,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: false,
   },
   {
@@ -84,16 +78,14 @@ export const initialCategories = [
     icon: OilIndustry,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: false,
   },
   {
     id: ProductionPlantCategoryId.Gas,
     label: "Erdgas",
-    icon: GasTank,
+    icon: GasTankDrop,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: false,
   },
   {
@@ -102,7 +94,6 @@ export const initialCategories = [
     icon: Trash,
     currentAmount: 0,
     totalCapacity: 0,
-    isChecked: false,
     isRenewableEnergy: false,
   },
 ];

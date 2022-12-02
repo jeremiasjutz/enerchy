@@ -1,8 +1,7 @@
 import pPlants from "../assets/productionPlants.json";
 import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE } from "../constants";
 import { useStore } from "../store";
-import { ProductionPlant, ProductionPlantCategory } from "../types";
-import { initialCategories } from "../types";
+import { ProductionPlant, ProductionPlantCategoryId } from "../types";
 import {
   linearInterpolation,
   logarithmicInterpolation,
@@ -13,12 +12,12 @@ export default function generatePowerValueArray({
   inputArraySize = 100,
   min = 0,
   max = 1000,
-  categories = [],
+  checkedCategories = [],
 }: {
   inputArraySize: number;
   min?: number;
   max?: number;
-  categories?: ProductionPlantCategory[];
+  checkedCategories?: ProductionPlantCategoryId[];
 }) {
   const inputArray = Array.from(
     Array(Math.round(inputArraySize * ASPECT_SWITZERLAND)),
@@ -26,7 +25,7 @@ export default function generatePowerValueArray({
   );
 
   const filteredProductionPlants = [];
-  let localCategories = categories.map((cat) => {
+  let localCategories = useStore.getState().categories.map((cat) => {
     cat.currentAmount = 0;
     cat.totalCapacity = 0;
     return cat;
@@ -34,41 +33,38 @@ export default function generatePowerValueArray({
 
   for (const productionPlant of productionPlants) {
     const [east, north, kWh, , subCat] = productionPlant;
-    if (
-      kWh >= min &&
-      kWh <= max &&
-      categories.some((cat) => cat.id === subCat && cat.isChecked)
-    ) {
+    if (kWh >= min && kWh <= max) {
       const index = localCategories.findIndex((cat) => cat.id === subCat);
       localCategories[index].totalCapacity += kWh;
       localCategories[index].currentAmount++;
+      if (checkedCategories.includes(subCat)) {
+        filteredProductionPlants.push(productionPlant);
+        const indexX = Math.round(
+          linearInterpolation({
+            number: east,
+            inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
+            outputRange: [0, inputArraySize - 1],
+          })
+        );
+        const indexY = Math.round(
+          linearInterpolation({
+            number: north,
+            inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
+            outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
+          })
+        );
 
-      filteredProductionPlants.push(productionPlant);
-      const indexX = Math.round(
-        linearInterpolation({
-          number: east,
-          inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
-          outputRange: [0, inputArraySize - 1],
-        })
-      );
-      const indexY = Math.round(
-        linearInterpolation({
-          number: north,
-          inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
-          outputRange: [0, inputArraySize * ASPECT_SWITZERLAND - 1],
-        })
-      );
+        const kwhInterpolated = logarithmicInterpolation({
+          number: kWh,
+          inputRange: [0, MAX_VALUE],
+          outputRange: [0, MAX_VALUE],
+        });
 
-      const kwhInterpolated = logarithmicInterpolation({
-        number: kWh,
-        inputRange: [0, MAX_VALUE],
-        outputRange: [0, MAX_VALUE],
-      });
-
-      inputArray[indexY][indexX] = Math.max(
-        kwhInterpolated,
-        inputArray[indexY][indexX]
-      );
+        inputArray[indexY][indexX] = Math.max(
+          kwhInterpolated,
+          inputArray[indexY][indexX]
+        );
+      }
     }
   }
   useStore.getState().setFilteredProductionPlants(filteredProductionPlants);

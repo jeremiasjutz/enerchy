@@ -6,8 +6,10 @@ interface CheckboxProps {
   category: ProductionPlantCategory;
 }
 export function Checkbox({ category }: CheckboxProps) {
-  const toggleCategory = useStore((state) => state.toggleCategory);
+  const toggleCategory = useStore((state) => state.toggleCheckedCategory);
+  const checkedCategories = useStore((state) => state.checkedCategories);
   const Icon = category.icon;
+  const isChecked = checkedCategories.includes(category.id);
 
   return (
     <div>
@@ -15,11 +17,11 @@ export function Checkbox({ category }: CheckboxProps) {
         id={"category-checkbox-" + category.id}
         type="checkbox"
         className="peer sr-only"
-        checked={category.isChecked}
-        onChange={() => toggleCategory(category)}
+        checked={isChecked}
+        onChange={() => toggleCategory(category.id)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            toggleCategory(category);
+            toggleCategory(category.id);
           }
         }}
       />
@@ -28,7 +30,7 @@ export function Checkbox({ category }: CheckboxProps) {
         className={clsx(
           "relative flex cursor-pointer items-center rounded-xl px-4 py-3 ",
           "font-medium transition-all peer-focus-visible:ring-2 sm:px-4",
-          category.isChecked
+          isChecked
             ? "bg-accent-900 text-accent ring-accent"
             : "bg-gray-900 text-gray-300 ring-gray-500"
         )}
@@ -39,7 +41,7 @@ export function Checkbox({ category }: CheckboxProps) {
           className={clsx(
             "absolute top-0 right-2 -translate-y-1/2 rounded-full",
             "px-3 py-0.5 text-xs font-semibold transition-colors",
-            category.isChecked ? "bg-accent-800" : "bg-gray-800"
+            isChecked ? "bg-accent-800" : "bg-gray-800"
           )}
         >
           {category.currentAmount}
