@@ -1,18 +1,36 @@
 import gsap, { Power3 } from "gsap";
-import { useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
-import { OrbitControls, useTexture } from "@react-three/drei";
-import { Color, Float32BufferAttribute, Mesh } from "three";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Suspense, useEffect, useRef } from "react";
+import { OrbitControls, Text, useTexture } from "@react-three/drei";
+import { Color, Float32BufferAttribute, Mesh, Vector3 } from "three";
+import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-700-normal.woff";
 
 import { useStore } from "../store";
-import { ASPECT_SWITZERLAND, MAX_VALUE, SIZE } from "../constants";
+import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE, SIZE } from "../constants";
 import {
   generatePowerValueArray,
   generateHeatmapVertexValues,
 } from "../heatmap";
+import {
+  linearInterpolation,
+  logarithmicInterpolation,
+} from "../utils/interpolations";
+
+const duration = 1;
+const ease = Power3.easeInOut;
+
+const scale = 0.5;
+
+const initialPosition = {
+  x: 0.08554049516572004,
+  y: -0.0324028957922643,
+  z: 0.0018479313613449788,
+};
 
 export default function HeatMap({ isReady }: { isReady: boolean }) {
   const mesh = useRef<Mesh>(null);
+  const markerRef = useRef<Mesh>(null);
+  const textRef = useRef<Mesh>(null);
   const isFirstRender = useRef(false);
   const { camera } = useThree();
   const switzerlandCantonBorders = useTexture("/switzerlandCantonBorders.png");
@@ -22,13 +40,20 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
   const checkedCategories = useStore((state) => state.checkedCategories);
+  const largestPowerOutputInSelection = useStore(
+    (state) => state.largestPowerOutputInSelection
+  );
+
+  useFrame(() => {
+    textRef.current?.lookAt(camera.position);
+  });
 
   useEffect(() => {
     if (isReady) {
       gsap.to(camera.position, {
         y: -0.5,
         z: 0.3,
-        ease: Power3.easeInOut,
+        ease,
         duration: 3,
       });
     }
@@ -40,7 +65,6 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
     const { position } = attributes;
 
     const inputArraySize = SIZE / 2;
-    const scale = 0.5;
 
     const { vertexValues, maxValueInSelection } = generateHeatmapVertexValues({
       array: generatePowerValueArray({
@@ -84,8 +108,6 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       attributes.color = new Float32BufferAttribute(colors, 3);
       attributes.color.needsUpdate = true;
     } else {
-      const duration = 1;
-      const ease = Power3.easeInOut;
       gsap.to(position.array, {
         ease,
         duration,
@@ -106,6 +128,47 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
     }
   }, [minPower, maxPower, checkedCategories]);
 
+  useEffect(() => {
+    if (
+      largestPowerOutputInSelection.length &&
+      markerRef.current &&
+      textRef.current
+    ) {
+      const x = linearInterpolation({
+        number: largestPowerOutputInSelection[0],
+        inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
+        outputRange: [-0.5, 0.5],
+      });
+      const y = linearInterpolation({
+        number: largestPowerOutputInSelection[1],
+        inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
+        outputRange: [-ASPECT_SWITZERLAND / 2, ASPECT_SWITZERLAND / 2],
+      });
+      const z = logarithmicInterpolation({
+        number: largestPowerOutputInSelection[2],
+        inputRange: [0, MAX_VALUE],
+        outputRange: [0, scale],
+      });
+
+      console.log({ x, y, z });
+
+      gsap.to(markerRef.current.position, {
+        x,
+        y,
+        z: z + 0.02,
+        ease,
+        duration,
+      });
+      gsap.to(textRef.current.position, {
+        x,
+        y,
+        z: z + 0.04,
+        ease,
+        duration,
+      });
+    }
+  }, [largestPowerOutputInSelection]);
+
   return (
     <>
       <OrbitControls
@@ -116,6 +179,39 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       />
       <ambientLight />
       <pointLight color={0xffffff} position={[-3, 3, 0]} />
+      {largestPowerOutputInSelection.length && (
+        <>
+          <Suspense fallback={null}>
+            <Text
+              ref={textRef}
+              position={[
+                initialPosition.x,
+                initialPosition.y,
+                initialPosition.z + 0.04,
+              ]}
+              fontSize={0.0125}
+              up={[0, 0, 1]}
+              font={albertSansUrl}
+              anchorX="center"
+              anchorY="middle"
+            >
+              {largestPowerOutputInSelection[2].toLocaleString("de-CH")} kWh
+            </Text>
+          </Suspense>
+          <mesh
+            ref={markerRef}
+            position={[
+              initialPosition.x,
+              initialPosition.y,
+              initialPosition.z + 0.02,
+            ]}
+            rotation-x={Math.PI / 2}
+          >
+            <cylinderGeometry args={[0.005, 0, 0.01, 32]} />
+            <meshStandardMaterial color="white" transparent opacity={0.8} />
+          </mesh>
+        </>
+      )}
       <mesh position={[0, 0, -0.0005]}>
         <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
         <meshBasicMaterial
