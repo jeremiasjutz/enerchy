@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
+
 import { useStore } from "../../store";
+import { Tooltip } from "../Tooltip";
 
 export function PowerRangeRadioButtons() {
   const [selected, setSelected] = useState(powerRanges[0]);
@@ -16,8 +18,12 @@ export function PowerRangeRadioButtons() {
 
   return (
     <RadioGroup value={selected} onChange={onChange}>
-      <RadioGroup.Label as="h1" className="mb-4 text-xl font-bold text-white">
-        Kraftwerk Leistung
+      <RadioGroup.Label
+        as="div"
+        className="mb-4 flex items-center gap-3 text-white"
+      >
+        <h1 className="text-xl font-bold">Kraftwerk Leistung</h1>
+        <Tooltip content="Hiermit ist die maximal mögliche Leistung eines Kraftwerks gemeint." />
       </RadioGroup.Label>
       <div className="grid grid-cols-2 gap-3">
         {powerRanges.map((powerRange) => (
@@ -26,7 +32,7 @@ export function PowerRangeRadioButtons() {
             value={powerRange}
             className={({ active, checked }) =>
               clsx(
-                "cursor-pointer rounded-xl px-4 py-3 ring-accent transition-colors focus:outline-none sm:px-4",
+                "cursor-pointer rounded-xl px-4 py-3 ring-accent transition-colors last:col-span-2 focus:outline-none sm:px-4",
                 active && "transition-shadow focus-visible:ring-2",
                 checked ? "bg-accent-900" : "bg-gray-900"
               )
@@ -65,15 +71,19 @@ export function PowerRangeRadioButtons() {
 
 export const powerRanges = [
   {
-    name: "Klein",
+    name: "Gering",
     range: [0, 1000],
   },
   {
     name: "Mittel",
+    range: [1000, 10_000],
+  },
+  {
+    name: "Hoch",
     range: [1000, 100_000],
   },
   {
-    name: "Gross",
+    name: "Sehr hoch",
     range: [100_000, 2_000_000],
   },
   {
