@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { ArrowLeft } from "iconoir-react";
+import { ArrowLeft, Check } from "iconoir-react";
 
 import { pageTransition } from "../Content";
 import { Checkbox } from "./Checkbox";
@@ -10,6 +10,12 @@ import { useStore } from "../../store";
 
 export default function Controls() {
   const [isControlsOpen, setIsControlsOpen] = useState(true);
+  const isStatisticsPanelOpen = useStore(
+    (state) => state.isStatisticsPanelOpen
+  );
+  const toggleStatisticsPanel = useStore(
+    (state) => state.toggleStatisticsPanel
+  );
   const categories = useStore((state) => state.categories);
   const setAllCheckedCategories = useStore(
     (state) => state.setAllCheckedCategories
@@ -91,6 +97,31 @@ export default function Controls() {
                 }
               })}
             </div>
+          </div>
+          <div className="text-white">
+            <input
+              type="checkbox"
+              id="toggleStatisticsPanel"
+              className="peer sr-only"
+              checked={isStatisticsPanelOpen}
+              onChange={toggleStatisticsPanel}
+            />
+            <label
+              htmlFor="toggleStatisticsPanel"
+              className="flex cursor-pointer gap-2"
+            >
+              <div className="grid h-6 w-6 place-items-center rounded-md bg-accent-900 text-accent">
+                <motion.div
+                  animate={{
+                    scale: isStatisticsPanelOpen ? 1 : 0,
+                    opacity: isStatisticsPanelOpen ? 1 : 0,
+                  }}
+                >
+                  <Check className="h-5 w-5" />
+                </motion.div>
+              </div>
+              <span className="font-medium">Statistik sichtbar</span>
+            </label>
           </div>
         </div>
       </div>

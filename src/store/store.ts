@@ -9,6 +9,7 @@ import {
 interface State {
   minPower: number;
   maxPower: number;
+  isStatisticsPanelOpen: boolean;
   maxPowerOutput: ProductionPlant | [];
   filteredProductionPlants: ProductionPlant[];
   categories: ProductionPlantCategory[];
@@ -21,11 +22,13 @@ interface State {
   ) => void;
   setAllCheckedCategories: (type: "renewable" | "nonrenewable") => void;
   toggleCheckedCategory: (category: ProductionPlantCategoryId) => void;
+  toggleStatisticsPanel: () => void;
 }
 
 export const useStore = create<State>((set) => ({
   minPower: 0,
   maxPower: 1000,
+  isStatisticsPanelOpen: true,
   filteredProductionPlants: [],
   maxPowerOutput: [],
   categories: initialCategories,
@@ -72,5 +75,9 @@ export const useStore = create<State>((set) => ({
       checkedCategories: state.checkedCategories.includes(category)
         ? state.checkedCategories.filter((cat) => cat !== category)
         : [...state.checkedCategories, category],
+    })),
+  toggleStatisticsPanel: () =>
+    set((state) => ({
+      isStatisticsPanelOpen: !state.isStatisticsPanelOpen,
     })),
 }));

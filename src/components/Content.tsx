@@ -2,8 +2,9 @@ import { Canvas } from "@react-three/fiber";
 import HeatMap from "./HeatMap";
 import Controls from "./Controls";
 import Statistics from "./Statistics";
-import { motion, Transition } from "framer-motion";
+import { AnimatePresence, motion, Transition } from "framer-motion";
 import { useRef, useState } from "react";
+import { useStore } from "../store";
 
 export const pageTransition: Transition = {
   type: "spring",
@@ -22,6 +23,9 @@ export default function Content({
   hasSeenOnboarding,
 }: ContentProps) {
   const [isReady, setIsReady] = useState(hasSeenOnboarding);
+  const isStatisticsPanelOpen = useStore(
+    (state) => state.isStatisticsPanelOpen
+  );
   const isFirstAnimationPass = useRef(true);
   return (
     <motion.div
@@ -39,7 +43,9 @@ export default function Content({
       className="fixed inset-0"
     >
       <Controls />
-      <Statistics />
+      <AnimatePresence initial={false}>
+        {isStatisticsPanelOpen && <Statistics />}
+      </AnimatePresence>
       <Canvas
         className="bg-black"
         camera={{

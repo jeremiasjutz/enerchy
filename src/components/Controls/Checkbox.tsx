@@ -30,14 +30,7 @@ export function Checkbox({ category }: CheckboxProps) {
       />
       <label
         htmlFor={"category-checkbox-" + category.id}
-        className={clsx(
-          "relative flex cursor-pointer items-center rounded-xl px-4 py-3 ",
-          "font-medium transition-all peer-focus-visible:ring-2 sm:px-4",
-          isChecked
-            ? "bg-accent-900 text-accent ring-accent"
-            : "bg-gray-900 text-gray-300 ring-gray-500",
-          isDisabled && "opacity-50"
-        )}
+        className="relative flex cursor-pointer items-center rounded-xl bg-gray-900 px-4 py-3 font-medium text-gray-300 ring-gray-500 transition-all peer-checked:bg-accent-900 peer-checked:text-accent peer-checked:ring-accent peer-focus-visible:ring-2 peer-disabled:opacity-50 sm:px-4"
       >
         <Icon className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
 

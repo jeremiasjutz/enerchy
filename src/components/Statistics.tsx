@@ -14,7 +14,12 @@ export default function Statistics() {
   );
 
   return (
-    <aside className="absolute top-0 right-0 z-10 grid w-full gap-3 border-b border-gray-900 bg-black/75 p-4 py-6 pl-[26.5rem] pr-10 text-white backdrop-blur-md">
+    <motion.aside
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: "-100%", opacity: 0 }}
+      className="absolute top-0 right-0 z-10 grid w-full gap-3 border-b border-gray-900 bg-black/75 p-4 py-6 pr-10 text-white backdrop-blur-md sm:pl-[26.5rem]"
+    >
       <div>
         <h1 className="leadin text-lg font-bold">
           {numberFormatter.format(Math.round(totalCapacityOfAllCategories))} kWh
@@ -59,6 +64,6 @@ export default function Statistics() {
           );
         })}
       </div>
-    </aside>
+    </motion.aside>
   );
 }
