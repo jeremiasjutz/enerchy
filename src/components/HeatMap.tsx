@@ -3,7 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import { OrbitControls, Text, useTexture } from "@react-three/drei";
 import { Color, Float32BufferAttribute, Mesh } from "three";
-import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-700-normal.woff";
+import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-900-normal.woff";
 
 import { useStore } from "../store";
 import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE, SIZE } from "../constants";
@@ -181,6 +181,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
                 initialPosition.y,
                 initialPosition.z + 0.045,
               ]}
+              characters="kWh0123456789’"
               fontSize={0.0175}
               up={[0, 0, 1]}
               font={albertSansUrl}
