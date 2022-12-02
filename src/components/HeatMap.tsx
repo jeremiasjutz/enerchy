@@ -2,7 +2,7 @@ import gsap, { Power3 } from "gsap";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import { OrbitControls, Text, useTexture } from "@react-three/drei";
-import { Color, Float32BufferAttribute, Mesh, Vector3 } from "three";
+import { Color, Float32BufferAttribute, Mesh } from "three";
 import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-700-normal.woff";
 
 import { useStore } from "../store";
