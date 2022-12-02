@@ -40,9 +40,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
   const checkedCategories = useStore((state) => state.checkedCategories);
-  const largestPowerOutputInSelection = useStore(
-    (state) => state.largestPowerOutputInSelection
-  );
+  const maxPowerOutput = useStore((state) => state.maxPowerOutput);
 
   useFrame(() => {
     textRef.current?.lookAt(camera.position);
@@ -129,28 +127,22 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   }, [minPower, maxPower, checkedCategories]);
 
   useEffect(() => {
-    if (
-      largestPowerOutputInSelection.length &&
-      markerRef.current &&
-      textRef.current
-    ) {
+    if (maxPowerOutput.length && markerRef.current && textRef.current) {
       const x = linearInterpolation({
-        number: largestPowerOutputInSelection[0],
+        number: maxPowerOutput[0],
         inputRange: [BOUNDARIES.east.min, BOUNDARIES.east.max],
         outputRange: [-0.5, 0.5],
       });
       const y = linearInterpolation({
-        number: largestPowerOutputInSelection[1],
+        number: maxPowerOutput[1],
         inputRange: [BOUNDARIES.north.min, BOUNDARIES.north.max],
         outputRange: [-ASPECT_SWITZERLAND / 2, ASPECT_SWITZERLAND / 2],
       });
       const z = logarithmicInterpolation({
-        number: largestPowerOutputInSelection[2],
+        number: maxPowerOutput[2],
         inputRange: [0, MAX_VALUE],
         outputRange: [0, scale],
       });
-
-      console.log({ x, y, z });
 
       gsap.to(markerRef.current.position, {
         x,
@@ -167,7 +159,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         duration,
       });
     }
-  }, [largestPowerOutputInSelection]);
+  }, [maxPowerOutput]);
 
   return (
     <>
@@ -179,7 +171,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       />
       <ambientLight />
       <pointLight color={0xffffff} position={[-3, 3, 0]} />
-      {largestPowerOutputInSelection.length && (
+      {maxPowerOutput.length && (
         <>
           <Suspense fallback={null}>
             <Text
@@ -195,7 +187,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
               anchorX="center"
               anchorY="middle"
             >
-              {largestPowerOutputInSelection[2].toLocaleString("de-CH")} kWh
+              {maxPowerOutput[2].toLocaleString("de-CH")} kWh
             </Text>
           </Suspense>
           <mesh

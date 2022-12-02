@@ -9,7 +9,7 @@ import {
 interface State {
   minPower: number;
   maxPower: number;
-  largestPowerOutputInSelection: ProductionPlant | [];
+  maxPowerOutput: ProductionPlant | [];
   filteredProductionPlants: ProductionPlant[];
   categories: ProductionPlantCategory[];
   checkedCategories: ProductionPlantCategoryId[];
@@ -26,7 +26,7 @@ export const useStore = create<State>((set) => ({
   minPower: 0,
   maxPower: 1000,
   filteredProductionPlants: [],
-  largestPowerOutputInSelection: [],
+  maxPowerOutput: [],
   categories: initialCategories,
   checkedCategories: [
     ProductionPlantCategoryId.Water,
@@ -38,9 +38,8 @@ export const useStore = create<State>((set) => ({
   setFilteredProductionPlants: (filteredProductionPlants) =>
     set({
       filteredProductionPlants,
-      largestPowerOutputInSelection: filteredProductionPlants.reduce(
-        (prev, cur) => (prev[2] > cur[2] ? prev : cur),
-        [-1, -1, -1, -1, -1, ""]
+      maxPowerOutput: filteredProductionPlants.reduce((prev, cur) =>
+        prev[2] > cur[2] ? prev : cur
       ),
     }),
   toggleCheckedCategory: (category) =>
