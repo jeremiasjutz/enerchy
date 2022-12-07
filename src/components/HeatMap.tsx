@@ -33,6 +33,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const textRef = useRef<Mesh>(null);
   const isFirstRender = useRef(false);
   const { camera } = useThree();
+  const switzerlandBorder = useTexture("/switzerlandBorder.png");
   const switzerlandCantonBorders = useTexture("/switzerlandCantonBorders.png");
   const switzerlandBorderAlphaMap = useTexture(
     "/switzerlandBorderAlphaMap.png"
@@ -226,8 +227,13 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         <meshBasicMaterial
           map={switzerlandCantonBorders}
           transparent
+          alphaMap={switzerlandBorderAlphaMap}
           opacity={1}
         />
+      </mesh>
+      <mesh position={[0, 0, -0.0005]}>
+        <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
+        <meshBasicMaterial map={switzerlandBorder} transparent opacity={0.5} />
       </mesh>
       <mesh ref={mesh}>
         <planeGeometry

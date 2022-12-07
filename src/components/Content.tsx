@@ -47,7 +47,6 @@ export default function Content({
         {isStatisticsPanelOpen && <Statistics />}
       </AnimatePresence>
       <Canvas
-        className="bg-black"
         camera={{
           position: [0, 0, 3],
           near: 0.001,
