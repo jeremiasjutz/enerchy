@@ -56,6 +56,11 @@ export default function Statistics() {
                   animate={{
                     width: percentage * 100 + "%",
                   }}
+                  transition={{
+                    delay: 0.25,
+                    duration: 1,
+                    type: "spring",
+                  }}
                   className="max-w-full rounded-full bg-accent"
                 />
               </div>

@@ -184,7 +184,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       />
       <ambientLight />
       <pointLight color={0xffc700} position={[0, 1, 2]} intensity={0.75} />
-      {maxPowerOutput.length && (
+      {maxPowerOutput.length && checkedCategories.length && (
         <>
           <Suspense fallback={null}>
             <Text
@@ -226,7 +226,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         <meshBasicMaterial
           map={switzerlandCantonBorders}
           transparent
-          opacity={0.5}
+          opacity={1}
         />
       </mesh>
       <mesh ref={mesh}>
