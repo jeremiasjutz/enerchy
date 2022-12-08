@@ -9,7 +9,7 @@ import {
   Wind,
 } from "iconoir-react";
 
-export type ProductionPlant = [number, number, number, number, number, string];
+export type ProductionPlant = [number, number, number, number];
 
 export enum ProductionPlantCategoryId {
   Water = 1,

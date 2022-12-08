@@ -33,7 +33,7 @@ export default function generatePowerValueArray({
   });
   if (checkedCategories.length > 0) {
     for (const productionPlant of productionPlants) {
-      const [east, north, kWh, , subCat] = productionPlant;
+      const [east, north, kWh, subCat] = productionPlant;
 
       if (kWh >= min && kWh <= max) {
         const index = localCategories.findIndex((cat) => cat.id === subCat);

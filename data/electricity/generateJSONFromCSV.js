@@ -52,9 +52,7 @@ async function createProductionPlantsAndTotalCapacityJsonFile() {
       +item._x,
       +item._y,
       totalPower,
-      +item.MainCategory.replace("maincat_", ""),
       +item.SubCategory.replace("subcat_", ""),
-      item.Canton,
     ]);
   }
 
