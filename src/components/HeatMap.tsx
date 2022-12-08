@@ -19,8 +19,6 @@ import {
 const duration = 1;
 const ease = Power3.easeInOut;
 
-const scale = 0.5;
-
 const initialPosition = {
   x: 0.08554049516572004,
   y: -0.0324028957922643,
@@ -40,6 +38,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   );
   const minPower = useStore((state) => state.minPower);
   const maxPower = useStore((state) => state.maxPower);
+  const scale = useStore((state) => state.scale);
   const checkedCategories = useStore((state) => state.checkedCategories);
   const maxPowerOutput = useStore((state) => state.maxPowerOutput);
   const isBorderVisible = useStore((state) => state.isBorderVisible);
@@ -138,7 +137,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         },
       });
     }
-  }, [minPower, maxPower, checkedCategories]);
+  }, [minPower, maxPower, scale, checkedCategories]);
 
   useEffect(() => {
     if (maxPowerOutput.length && markerRef.current && textRef.current) {
@@ -173,7 +172,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
         duration,
       });
     }
-  }, [maxPowerOutput]);
+  }, [maxPowerOutput, scale]);
 
   return (
     <>

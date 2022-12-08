@@ -9,6 +9,7 @@ import {
 interface State {
   minPower: number;
   maxPower: number;
+  scale: number;
   isStatisticsPanelOpen: boolean;
   isBorderVisible: boolean;
   maxPowerOutput: ProductionPlant | [];
@@ -17,6 +18,7 @@ interface State {
   checkedCategories: ProductionPlantCategoryId[];
   setMinPower: (minPower: number) => void;
   setMaxPower: (maxPower: number) => void;
+  setScale: (scale: number) => void;
   setCategories: (categories: ProductionPlantCategory[]) => void;
   setFilteredProductionPlants: (
     filteredProductionPlants: ProductionPlant[]
@@ -30,6 +32,7 @@ interface State {
 export const useStore = create<State>((set) => ({
   minPower: 0,
   maxPower: 1000,
+  scale: 0.5,
   isStatisticsPanelOpen: true,
   isBorderVisible: false,
   filteredProductionPlants: [],
@@ -41,6 +44,7 @@ export const useStore = create<State>((set) => ({
   ],
   setMinPower: (minPower) => set({ minPower }),
   setMaxPower: (maxPower) => set({ maxPower }),
+  setScale: (scale) => set({ scale }),
   setCategories: (categories) => set({ categories }),
   setFilteredProductionPlants: (filteredProductionPlants) =>
     set({
