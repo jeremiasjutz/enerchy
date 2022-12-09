@@ -5,6 +5,9 @@ import Statistics from "./Statistics";
 import { AnimatePresence, motion, Transition } from "framer-motion";
 import { useRef, useState } from "react";
 import { useStore } from "../store";
+import clsx from "clsx";
+import { Cancel } from "iconoir-react";
+import { Reports } from "iconoir-react";
 
 export const pageTransition: Transition = {
   type: "spring",
@@ -23,10 +26,12 @@ export default function Content({
   hasSeenOnboarding,
 }: ContentProps) {
   const [isReady, setIsReady] = useState(hasSeenOnboarding);
+  const isControlsPanelOpen = useStore((state) => state.isStatisticsPanelOpen);
+  const isFirstAnimationPass = useRef(true);
   const isStatisticsPanelOpen = useStore(
     (state) => state.isStatisticsPanelOpen
   );
-  const isFirstAnimationPass = useRef(true);
+
   return (
     <motion.div
       id="content"
@@ -43,9 +48,13 @@ export default function Content({
       className="fixed inset-0"
     >
       <Controls />
+
       <AnimatePresence initial={false}>
         {isStatisticsPanelOpen && <Statistics />}
       </AnimatePresence>
+
+      <ToggleStatisticsButton />
+
       <Canvas
         camera={{
           position: [0, 0, 3],
@@ -56,5 +65,26 @@ export default function Content({
         <HeatMap isReady={isReady} />
       </Canvas>
     </motion.div>
+  );
+}
+
+function ToggleStatisticsButton() {
+  const isStatisticsPanelOpen = useStore(
+    (state) => state.isStatisticsPanelOpen
+  );
+  const toggleStatisticsPanel = useStore(
+    (state) => state.toggleStatisticsPanel
+  );
+
+  return (
+    <button
+      className={clsx(
+        "fixed top-0 right-0 z-10 border-gray-500 bg-gray-900",
+        "rounded-bl-xl p-3 text-white focus:outline-none"
+      )}
+      onClick={() => toggleStatisticsPanel()}
+    >
+      <div>{isStatisticsPanelOpen ? <Cancel /> : <Reports />}</div>
+    </button>
   );
 }
