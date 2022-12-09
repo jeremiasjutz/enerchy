@@ -28,7 +28,7 @@ const initialPosition = {
 
 export default function HeatMap({ isReady }: { isReady: boolean }) {
   const mesh = useRef<Mesh>(null);
-  const heatMapGroupRef = useRef<Group>(null);
+  const orbitControlsRef = useRef(null);
   const markerRef = useRef<Mesh>(null);
   const textRef = useRef<Mesh>(null);
   const isFirstRender = useRef(false);
@@ -44,14 +44,13 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const checkedCategories = useStore((state) => state.checkedCategories);
   const maxPowerOutput = useStore((state) => state.maxPowerOutput);
   const isBorderVisible = useStore((state) => state.isBorderVisible);
-  const isControlPanelOpen = useStore((state) => state.isControlPanelOpen);
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [startLookingAtCamera, setStartLookingAtCamera] = useState(false);
 
   useFrame(() => {
     startLookingAtCamera
       ? textRef.current?.lookAt(camera.position)
-      : textRef.current?.lookAt(0, -0.5, 0.3);
+      : textRef.current?.lookAt(0, -0.5, isMobile ? 1 : 0.4);
   });
 
   useEffect(() => {
@@ -66,31 +65,13 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
     if (isReady) {
       gsap.to(camera.position, {
         y: -0.5,
-        z: 0.3,
+        z: isMobile ? 1 : 0.4,
         ease,
         duration: 3,
         onComplete: () => setStartLookingAtCamera(true),
       });
     }
-  }, [isReady]);
-
-  useEffect(() => {
-    if (isMobile && heatMapGroupRef.current) {
-      if (isControlPanelOpen) {
-        gsap.to(heatMapGroupRef.current.position, {
-          y: 0.75,
-          ease,
-          duration: 1,
-        });
-      } else {
-        gsap.to(heatMapGroupRef.current.position, {
-          y: 0,
-          ease,
-          duration: 1,
-        });
-      }
-    }
-  }, [isControlPanelOpen]);
+  }, [isReady, isMobile]);
 
   useEffect(() => {
     const { geometry } = mesh.current!;
@@ -199,6 +180,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   return (
     <>
       <OrbitControls
+        ref={orbitControlsRef}
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2 - 0.25}
         minDistance={0.1}
@@ -206,79 +188,74 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       />
       <ambientLight />
       <pointLight color={0xffc700} position={[0, 1, 2]} intensity={0.75} />
-      <group ref={heatMapGroupRef}>
-        {maxPowerOutput.length && checkedCategories.length && (
-          <>
-            <Suspense fallback={null}>
-              <Text
-                ref={textRef}
-                position={[
-                  initialPosition.x,
-                  initialPosition.y,
-                  initialPosition.z + 0.045,
-                ]}
-                characters="kWh0123456789’"
-                fontSize={0.0175}
-                up={[0, 0, 1]}
-                font={albertSansUrl}
-                anchorX="center"
-                anchorY="middle"
-              >
-                {maxPowerOutput[2].toLocaleString("de-CH", {
-                  maximumFractionDigits: 0,
-                })}{" "}
-                kWh
-              </Text>
-            </Suspense>
-            <mesh
-              ref={markerRef}
+
+      {maxPowerOutput.length && checkedCategories.length && (
+        <>
+          <Suspense fallback={null}>
+            <Text
+              ref={textRef}
               position={[
                 initialPosition.x,
                 initialPosition.y,
-                initialPosition.z + 0.02,
+                initialPosition.z + 0.045,
               ]}
-              rotation-x={Math.PI / 2}
+              characters="kWh0123456789’"
+              fontSize={0.0175}
+              up={[0, 0, 1]}
+              font={albertSansUrl}
+              anchorX="center"
+              anchorY="middle"
             >
-              <cylinderGeometry args={[0.005, 0, 0.01, 32]} />
-              <meshStandardMaterial color={0xeeeeee} />
-            </mesh>
-          </>
-        )}
-        <mesh position={[0, 0, -0.0005]}>
-          <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
-          <meshBasicMaterial
-            map={switzerlandCantonBorders}
-            transparent
-            alphaMap={switzerlandBorderAlphaMap}
-            opacity={1}
-          />
-        </mesh>
-        <mesh position={[0, 0, -0.0005]}>
-          <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
-          <meshBasicMaterial
-            map={switzerlandBorder}
-            transparent
-            opacity={0.5}
-          />
-        </mesh>
-        <mesh ref={mesh}>
-          <planeGeometry
-            args={[
-              1,
-              ASPECT_SWITZERLAND,
-              SIZE - 1,
-              SIZE * ASPECT_SWITZERLAND - 1,
+              {maxPowerOutput[2].toLocaleString("de-CH", {
+                maximumFractionDigits: 0,
+              })}{" "}
+              kWh
+            </Text>
+          </Suspense>
+          <mesh
+            ref={markerRef}
+            position={[
+              initialPosition.x,
+              initialPosition.y,
+              initialPosition.z + 0.02,
             ]}
-          />
-          <meshStandardMaterial
-            roughness={1}
-            vertexColors
-            opacity={1}
-            transparent
-            alphaMap={switzerlandBorderAlphaMap}
-          />
-        </mesh>
-      </group>
+            rotation-x={Math.PI / 2}
+          >
+            <cylinderGeometry args={[0.005, 0, 0.01, 32]} />
+            <meshStandardMaterial color={0xeeeeee} />
+          </mesh>
+        </>
+      )}
+      <mesh position={[0, 0, -0.0005]}>
+        <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
+        <meshBasicMaterial
+          map={switzerlandCantonBorders}
+          transparent
+          alphaMap={switzerlandBorderAlphaMap}
+          opacity={1}
+        />
+      </mesh>
+      <mesh position={[0, 0, -0.0005]}>
+        <planeGeometry args={[1, ASPECT_SWITZERLAND, 1, 1]} />
+        <meshBasicMaterial map={switzerlandBorder} transparent opacity={0.5} />
+      </mesh>
+      <mesh ref={mesh}>
+        <planeGeometry
+          args={[
+            1,
+            ASPECT_SWITZERLAND,
+            SIZE - 1,
+            SIZE * ASPECT_SWITZERLAND - 1,
+          ]}
+        />
+        <meshStandardMaterial
+          roughness={1}
+          vertexColors
+          opacity={1}
+          transparent
+          alphaMap={switzerlandBorderAlphaMap}
+        />
+      </mesh>
     </>
   );
 }

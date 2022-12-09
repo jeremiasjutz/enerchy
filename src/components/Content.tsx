@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { useStore } from "../store";
 import { Cancel } from "iconoir-react";
 import { Reports } from "iconoir-react";
+import { useMediaQuery } from "usehooks-ts";
 
 export const pageTransition: Transition = {
   type: "spring",
@@ -26,6 +27,8 @@ export default function Content({
 }: ContentProps) {
   const [isReady, setIsReady] = useState(hasSeenOnboarding);
   const isFirstAnimationPass = useRef(true);
+  const isMobile = useMediaQuery("(max-width: 767px)");
+  const isControlPanelOpen = useStore((state) => state.isControlPanelOpen);
   const isStatisticsPanelOpen = useStore(
     (state) => state.isStatisticsPanelOpen
   );
@@ -52,16 +55,25 @@ export default function Content({
       </AnimatePresence>
 
       <ToggleStatisticsButton />
-
-      <Canvas
-        camera={{
-          position: [0, 0, 3],
-          near: 0.001,
-          up: [0, 0, 1],
-        }}
+      <motion.div
+        className="fixed inset-0"
+        initial={{ y: isMobile ? "-25%" : 0, x: isMobile ? 0 : "10%" }}
+        animate={
+          isMobile
+            ? { y: isControlPanelOpen ? "-25%" : 0 }
+            : { x: isControlPanelOpen ? "10%" : 0 }
+        }
       >
-        <HeatMap isReady={isReady} />
-      </Canvas>
+        <Canvas
+          camera={{
+            position: [0, 0, 3],
+            near: 0.001,
+            up: [0, 0, 1],
+          }}
+        >
+          <HeatMap isReady={isReady} />
+        </Canvas>
+      </motion.div>
     </motion.div>
   );
 }

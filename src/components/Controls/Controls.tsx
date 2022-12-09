@@ -22,7 +22,7 @@ export default function Controls() {
           : { x: isControlPanelOpen ? 0 : "-100%" }
       }
       className={
-        "fixed bottom-0 z-20 h-1/2 w-full select-none rounded-t-xl border-gray-900 bg-black/75 text-gray-800 shadow-2xl ring-1 ring-gray-900 backdrop-blur-md md:inset-y-0 md:h-full md:w-auto md:rounded-none md:border-r md:ring-0"
+        "fixed bottom-0 z-20 h-1/2 w-full select-none rounded-t-xl bg-black text-gray-800 shadow-2xl ring-1 ring-gray-900 md:inset-y-0 md:h-full md:w-auto md:rounded-none md:border-r md:border-gray-900 md:ring-0"
       }
     >
       <ToggleControlsButton />
