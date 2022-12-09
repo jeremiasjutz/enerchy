@@ -5,7 +5,6 @@ import Statistics from "./Statistics";
 import { AnimatePresence, motion, Transition } from "framer-motion";
 import { useRef, useState } from "react";
 import { useStore } from "../store";
-import clsx from "clsx";
 import { Cancel } from "iconoir-react";
 import { Reports } from "iconoir-react";
 
@@ -26,7 +25,6 @@ export default function Content({
   hasSeenOnboarding,
 }: ContentProps) {
   const [isReady, setIsReady] = useState(hasSeenOnboarding);
-  const isControlsPanelOpen = useStore((state) => state.isStatisticsPanelOpen);
   const isFirstAnimationPass = useRef(true);
   const isStatisticsPanelOpen = useStore(
     (state) => state.isStatisticsPanelOpen
@@ -78,11 +76,10 @@ function ToggleStatisticsButton() {
 
   return (
     <button
-      className={clsx(
-        "fixed top-0 right-0 z-10 border-gray-500 bg-gray-900",
-        "rounded-bl-xl p-3 text-white focus:outline-none"
-      )}
-      onClick={() => toggleStatisticsPanel()}
+      className={
+        "fixed top-2 right-2 z-10 rounded-xl border-gray-500 bg-gray-900 p-3 text-white focus:outline-none md:top-0 md:right-0 md:rounded-none md:rounded-bl-xl"
+      }
+      onClick={toggleStatisticsPanel}
     >
       <div>{isStatisticsPanelOpen ? <Cancel /> : <Reports />}</div>
     </button>
