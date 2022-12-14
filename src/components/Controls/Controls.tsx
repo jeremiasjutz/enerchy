@@ -7,9 +7,11 @@ import { Settings } from "./Settings";
 import { Categories } from "./Categories";
 import { ScaleSlider } from "./ScaleSlider";
 import { ToggleControlsButton } from "./ToggleControlsButton";
+import { useStore } from "../../store";
 
 export default function Controls() {
   const [isControlsOpen, setIsControlsOpen] = useState(true);
+  const toggleAboutPanel = useStore((state) => state.toggleAboutPage);
 
   return (
     <motion.aside
@@ -30,6 +32,15 @@ export default function Controls() {
           <Categories />
           <ScaleSlider />
           <Settings />
+
+          <div>
+            <button
+              onClick={toggleAboutPanel}
+              className=" pr-4 text-accent-600 underline"
+            >
+              About
+            </button>
+          </div>
         </div>
       </div>
     </motion.aside>

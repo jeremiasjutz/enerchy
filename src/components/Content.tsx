@@ -8,6 +8,7 @@ import { useStore } from "../store";
 import clsx from "clsx";
 import { Cancel } from "iconoir-react";
 import { Reports } from "iconoir-react";
+import About from "./About";
 
 export const pageTransition: Transition = {
   type: "spring",
@@ -26,11 +27,11 @@ export default function Content({
   hasSeenOnboarding,
 }: ContentProps) {
   const [isReady, setIsReady] = useState(hasSeenOnboarding);
-  const isControlsPanelOpen = useStore((state) => state.isStatisticsPanelOpen);
   const isFirstAnimationPass = useRef(true);
   const isStatisticsPanelOpen = useStore(
     (state) => state.isStatisticsPanelOpen
   );
+  const isAboutPageOpen = useStore((state) => state.isAboutPageOpen);
 
   return (
     <motion.div
@@ -64,6 +65,10 @@ export default function Content({
       >
         <HeatMap isReady={isReady} />
       </Canvas>
+
+      <AnimatePresence initial={false}>
+        {isAboutPageOpen && <About />}
+      </AnimatePresence>
     </motion.div>
   );
 }
