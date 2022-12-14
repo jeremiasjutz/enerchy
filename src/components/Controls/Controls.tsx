@@ -1,6 +1,5 @@
-import clsx from "clsx";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { PowerRangeRadioButtons } from "./PowerRangeRadioButtons";
 import { Settings } from "./Settings";
@@ -10,22 +9,23 @@ import { ToggleControlsButton } from "./ToggleControlsButton";
 import { useStore } from "../../store";
 
 export default function Controls() {
-  const [isControlsOpen, setIsControlsOpen] = useState(true);
+  const isControlPanelOpen = useStore((state) => state.isControlPanelOpen);
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const toggleAboutPanel = useStore((state) => state.toggleAboutPage);
 
   return (
     <motion.aside
-      initial={{ x: 0 }}
-      animate={{ x: isControlsOpen ? 0 : "-100%" }}
-      className={clsx(
-        "fixed inset-y-0 z-20 w-full select-none border-gray-900 sm:w-auto",
-        "bg-black/75 text-gray-800 backdrop-blur-md sm:border-r"
-      )}
+      initial={isMobile ? { y: 0 } : { x: 0 }}
+      animate={
+        isMobile
+          ? { y: isControlPanelOpen ? 0 : "100%" }
+          : { x: isControlPanelOpen ? 0 : "-100%" }
+      }
+      className={
+        "fixed bottom-0 z-20 h-1/2 w-full select-none rounded-t-xl bg-black text-gray-800 shadow-2xl ring-1 ring-gray-900 md:inset-y-0 md:h-full md:w-auto md:rounded-none md:border-r md:border-gray-900 md:ring-0"
+      }
     >
-      <ToggleControlsButton
-        isControlsOpen={isControlsOpen}
-        setIsControlsOpen={setIsControlsOpen}
-      />
+      <ToggleControlsButton />
       <div className="bg-pattern-sidebar h-full overflow-y-auto p-6">
         <div className="relative grid gap-12">
           <PowerRangeRadioButtons />

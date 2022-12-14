@@ -1,3 +1,4 @@
+import { useMediaQuery } from "usehooks-ts";
 import create from "zustand";
 import {
   initialCategories,
@@ -10,6 +11,7 @@ interface State {
   minPower: number;
   maxPower: number;
   scale: number;
+  isControlPanelOpen: boolean;
   isStatisticsPanelOpen: boolean;
   isAboutPageOpen: boolean;
   isBorderVisible: boolean;
@@ -26,16 +28,20 @@ interface State {
   ) => void;
   setAllCheckedCategories: (type: "renewable" | "nonrenewable") => void;
   toggleCheckedCategory: (category: ProductionPlantCategoryId) => void;
+  toggleControlPanel: () => void;
   toggleStatisticsPanel: () => void;
   toggleAboutPage: () => void;
   toggleBorderVisibility: () => void;
 }
 
+const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
 export const useStore = create<State>((set) => ({
   minPower: 0,
   maxPower: 1000,
   scale: 0.5,
-  isStatisticsPanelOpen: true,
+  isControlPanelOpen: true,
+  isStatisticsPanelOpen: isDesktop,
   isAboutPageOpen: false,
   isBorderVisible: false,
   filteredProductionPlants: [],
@@ -85,6 +91,10 @@ export const useStore = create<State>((set) => ({
       checkedCategories: state.checkedCategories.includes(category)
         ? state.checkedCategories.filter((cat) => cat !== category)
         : [...state.checkedCategories, category],
+    })),
+  toggleControlPanel: () =>
+    set((state) => ({
+      isControlPanelOpen: !state.isControlPanelOpen,
     })),
   toggleStatisticsPanel: () =>
     set((state) => ({

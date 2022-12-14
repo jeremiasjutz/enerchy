@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import { useCallback, useState } from "react";
 
 import Content from "./components/Content";
@@ -25,11 +25,13 @@ export default function App() {
       window.localStorage.setItem("hasSeenOnboarding", "true");
   }, []);
   return (
-    <>
+    <MotionConfig
+      transition={{ type: "spring", mass: 0.5, stiffness: 300, damping: 35 }}
+    >
       <AnimatePresence>
         {showOnboarding && <Onboarding scrollToHeatMap={scrollToHeatMap} />}
       </AnimatePresence>
       <Content y={y} opacity={opacity} hasSeenOnboarding={hasSeenOnboarding} />
-    </>
+    </MotionConfig>
   );
 }
