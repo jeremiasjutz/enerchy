@@ -1,23 +1,37 @@
-import { useStore } from "../store";
-import { motion } from "framer-motion";
-import { numberFormatter } from "../utils";
 import clsx from "clsx";
+import { motion } from "framer-motion";
+import { useMediaQuery } from "usehooks-ts";
+
+import { useStore } from "../store";
+import { numberFormatter } from "../utils";
 
 export default function Statistics() {
   const categories = useStore((state) => state.categories);
   const checkedCategories = useStore((state) => state.checkedCategories);
+  const isControlPanelOpen = useStore((state) => state.isControlPanelOpen);
   const totalCapacityOfAllCategories = categories.reduce(
     (prev, cur) =>
       checkedCategories.includes(cur.id) ? prev + cur.totalCapacity : prev,
     0
   );
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   return (
     <motion.aside
-      initial={{ y: "-100%", opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{
+        y: "-100%",
+        opacity: 0,
+        ...(isMobile ? {} : { paddingLeft: "26rem" }),
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        ...(isMobile
+          ? {}
+          : { paddingLeft: isControlPanelOpen ? "26rem" : "5rem" }),
+      }}
       exit={{ y: "-100%", opacity: 0 }}
-      className="absolute inset-x-0 top-0 z-10 grid gap-4 border-b border-gray-900 bg-black/75 p-6 text-white backdrop-blur-md md:pr-10 md:pl-[26.5rem]"
+      className="absolute inset-x-0 top-0 z-10 grid select-none gap-4 border-b border-gray-900 bg-black/75 p-6 text-white backdrop-blur-md md:pr-20"
     >
       <div>
         <h1 className="leadin text-lg font-bold">
@@ -58,8 +72,8 @@ export default function Statistics() {
                   }}
                   transition={{
                     delay: 0.25,
-                    duration: 1,
-                    type: "spring",
+                    // duration: 1,
+                    // type: "spring",
                   }}
                   className="max-w-full rounded-full bg-accent"
                 />

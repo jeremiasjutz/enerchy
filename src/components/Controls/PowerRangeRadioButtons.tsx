@@ -81,7 +81,7 @@ export const powerRanges = [
   },
   {
     name: "Hoch",
-    range: [1000, 100_000],
+    range: [10_000, 100_000],
   },
   {
     name: "Sehr hoch",

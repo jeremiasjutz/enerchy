@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowLeft } from "iconoir-react";
-import { pageTransition } from "../Content";
 import { useStore } from "../../store";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -29,7 +28,6 @@ export function ToggleControlsButton() {
               borderBottomRightRadius: isControlPanelOpen ? 0 : "0.75rem",
             }
       }
-      transition={pageTransition}
       className={clsx(
         "absolute right-2 -top-14 z-10 rounded-xl border-gray-500 bg-gray-900 p-3 text-white focus:outline-none md:right-0 md:top-0 md:rounded-none md:focus-visible:border-b-2",
         isControlPanelOpen
@@ -41,7 +39,7 @@ export function ToggleControlsButton() {
       <motion.div
         initial={{ rotate: 0 }}
         animate={{ rotate: isControlPanelOpen ? 0 : 180 }}
-        transition={{ ...pageTransition, delay: 0.25 }}
+        transition={{ delay: 0.25 }}
       >
         {isMobile ? <ArrowDown /> : <ArrowLeft />}
       </motion.div>

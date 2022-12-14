@@ -1,4 +1,5 @@
 import gsap, { Power3 } from "gsap";
+import { useMediaQuery } from "usehooks-ts";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { OrbitControls, Text, useTexture } from "@react-three/drei";
@@ -6,6 +7,7 @@ import { Color, Float32BufferAttribute, Group, Mesh } from "three";
 import albertSansUrl from "@fontsource/albert-sans/files/albert-sans-all-900-normal.woff";
 
 import { useStore } from "../store";
+import { initialCategories } from "../types";
 import { ASPECT_SWITZERLAND, BOUNDARIES, MAX_VALUE, SIZE } from "../constants";
 import {
   generatePowerValueArray,
@@ -15,7 +17,6 @@ import {
   linearInterpolation,
   logarithmicInterpolation,
 } from "../utils/interpolations";
-import { useMediaQuery } from "usehooks-ts";
 
 const duration = 1;
 const ease = Power3.easeInOut;
@@ -30,7 +31,7 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   const mesh = useRef<Mesh>(null);
   const orbitControlsRef = useRef(null);
   const markerRef = useRef<Mesh>(null);
-  const textRef = useRef<Mesh>(null);
+  const textRef = useRef<Group>(null);
   const isFirstRender = useRef(false);
   const { camera } = useThree();
   const switzerlandBorder = useTexture("/switzerlandBorder.png");
@@ -192,25 +193,40 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
       {maxPowerOutput.length && checkedCategories.length && (
         <>
           <Suspense fallback={null}>
-            <Text
+            <group
               ref={textRef}
+              up={[0, 0, 1]}
               position={[
                 initialPosition.x,
                 initialPosition.y,
                 initialPosition.z + 0.045,
               ]}
-              characters="kWh0123456789’"
-              fontSize={0.0175}
-              up={[0, 0, 1]}
-              font={albertSansUrl}
-              anchorX="center"
-              anchorY="middle"
             >
-              {maxPowerOutput[2].toLocaleString("de-CH", {
-                maximumFractionDigits: 0,
-              })}{" "}
-              kWh
-            </Text>
+              <Text
+                fontSize={0.0175}
+                font={albertSansUrl}
+                position-y={0.015}
+                anchorX="center"
+                anchorY="middle"
+              >
+                {maxPowerOutput[2].toLocaleString("de-CH", {
+                  maximumFractionDigits: 0,
+                })}{" "}
+                kWh
+              </Text>
+              <Text
+                fontSize={0.01}
+                font={albertSansUrl}
+                anchorX="center"
+                anchorY="middle"
+              >
+                {
+                  initialCategories.find(
+                    (category) => category.id === maxPowerOutput[3]
+                  )?.label
+                }
+              </Text>
+            </group>
           </Suspense>
           <mesh
             ref={markerRef}

@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { PowerRangeRadioButtons } from "./PowerRangeRadioButtons";
 import { Settings } from "./Settings";
 import { Categories } from "./Categories";
 import { ScaleSlider } from "./ScaleSlider";
 import { ToggleControlsButton } from "./ToggleControlsButton";
-import { useMediaQuery } from "usehooks-ts";
 import { useStore } from "../../store";
 
 export default function Controls() {

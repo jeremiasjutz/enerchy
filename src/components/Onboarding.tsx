@@ -1,7 +1,6 @@
 import { motion, Variants } from "framer-motion";
 
 import logo from "../assets/logo.svg";
-import { pageTransition } from "./Content";
 import { useScrollToHeatMap } from "../hooks/useScrollToHeatMap";
 import { useStore } from "../store";
 
@@ -18,7 +17,6 @@ export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
     <motion.div
       id="onboarding"
       className="bg-pattern fixed inset-0 bg-black text-gray-800"
-      transition={pageTransition}
       initial={{ y: 0, opacity: 1 }}
       exit={{ y: "-100%", opacity: 0 }}
     >

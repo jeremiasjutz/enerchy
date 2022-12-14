@@ -2,17 +2,12 @@ import { Canvas } from "@react-three/fiber";
 import HeatMap from "./HeatMap";
 import Controls from "./Controls";
 import Statistics from "./Statistics";
-import { AnimatePresence, motion, Transition } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { useStore } from "../store";
 import { Cancel } from "iconoir-react";
 import { Reports } from "iconoir-react";
 import { useMediaQuery } from "usehooks-ts";
-
-export const pageTransition: Transition = {
-  type: "spring",
-  bounce: 0,
-};
 
 interface ContentProps {
   y: string | number;
@@ -45,7 +40,6 @@ export default function Content({
           setIsReady(true);
         }
       }}
-      transition={pageTransition}
       className="fixed inset-0"
     >
       <Controls />
