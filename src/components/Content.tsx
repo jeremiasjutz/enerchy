@@ -69,11 +69,10 @@ export default function Content({
         >
           <HeatMap isReady={isReady} />
         </Canvas>
-
-        <AnimatePresence initial={false}>
-          {isAboutPageOpen && <About />}
-        </AnimatePresence>
       </motion.div>
+      <AnimatePresence initial={false}>
+        {isAboutPageOpen && <About />}
+      </AnimatePresence>
     </motion.div>
   );
 }
