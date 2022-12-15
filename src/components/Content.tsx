@@ -82,6 +82,7 @@ function ToggleStatisticsButton() {
 
   return (
     <button
+      id="toggleStatisticsPanelButton"
       className={
         "fixed top-2 right-2 z-10 rounded-xl border-gray-500 bg-gray-900 p-3 text-white focus:outline-none md:top-0 md:right-0 md:rounded-none md:rounded-bl-xl"
       }

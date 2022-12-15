@@ -24,9 +24,13 @@ export default function Onboarding({ scrollToHeatMap }: OnboardingProps) {
         variants={container}
         initial="hidden"
         animate="show"
-        className="mx-auto grid h-full max-w-7xl grid-rows-3 place-items-center p-8 sm:text-center"
+        className="mx-auto grid h-full max-w-7xl place-items-center p-8 sm:text-center"
       >
-        <motion.img src={logo} className="w-40" variants={textVariant} />
+        <motion.img
+          src={logo}
+          className="w-32 sm:w-40"
+          variants={textVariant}
+        />
         <div className="grid max-w-4xl place-items-center gap-10">
           <motion.h1
             variants={textVariant}

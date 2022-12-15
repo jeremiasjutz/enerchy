@@ -16,7 +16,7 @@ export function Settings() {
     <div className="grid gap-2">
       <h1 className="mb-2 text-xl font-bold text-white">Einstellungen</h1>
       <Checkbox
-        htmlFor="statisticsPanel"
+        htmlFor="statisticsPanelVisibility"
         checked={isStatisticsPanelOpen}
         onChange={toggleStatisticsPanel}
         label="Statistik sichtbar"

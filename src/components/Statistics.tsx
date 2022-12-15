@@ -18,6 +18,7 @@ export default function Statistics() {
 
   return (
     <motion.aside
+      id="statisticsPanel"
       initial={{
         y: "-100%",
         opacity: 0,

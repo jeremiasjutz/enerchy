@@ -14,6 +14,7 @@ export default function Controls() {
 
   return (
     <motion.aside
+      id="controlPanel"
       initial={isMobile ? { y: 0 } : { x: 0 }}
       animate={
         isMobile

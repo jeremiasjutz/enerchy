@@ -10,6 +10,7 @@ export function ToggleControlsButton() {
   const isMobile = useMediaQuery("(max-width: 767px)");
   return (
     <motion.button
+      id="toggleControlPanelButton"
       initial={
         isMobile
           ? {}
