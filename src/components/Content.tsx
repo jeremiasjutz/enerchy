@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { useStore } from "../store";
 import { Cancel } from "iconoir-react";
 import { Reports } from "iconoir-react";
+import About from "./About";
 import { useMediaQuery } from "usehooks-ts";
 
 interface ContentProps {
@@ -27,6 +28,7 @@ export default function Content({
   const isStatisticsPanelOpen = useStore(
     (state) => state.isStatisticsPanelOpen
   );
+  const isAboutPageOpen = useStore((state) => state.isAboutPageOpen);
 
   return (
     <motion.div
@@ -68,6 +70,9 @@ export default function Content({
           <HeatMap isReady={isReady} />
         </Canvas>
       </motion.div>
+      <AnimatePresence initial={false}>
+        {isAboutPageOpen && <About />}
+      </AnimatePresence>
     </motion.div>
   );
 }

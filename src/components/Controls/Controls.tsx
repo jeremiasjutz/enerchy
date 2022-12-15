@@ -11,6 +11,7 @@ import { useStore } from "../../store";
 export default function Controls() {
   const isControlPanelOpen = useStore((state) => state.isControlPanelOpen);
   const isMobile = useMediaQuery("(max-width: 767px)");
+  const toggleAboutPanel = useStore((state) => state.toggleAboutPage);
 
   return (
     <motion.aside
@@ -32,6 +33,15 @@ export default function Controls() {
           <Categories />
           <ScaleSlider />
           <Settings />
+
+          <div>
+            <button
+              onClick={toggleAboutPanel}
+              className=" pr-4 text-accent-600 underline"
+            >
+              About
+            </button>
+          </div>
         </div>
       </div>
     </motion.aside>

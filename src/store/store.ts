@@ -13,6 +13,7 @@ interface State {
   scale: number;
   isControlPanelOpen: boolean;
   isStatisticsPanelOpen: boolean;
+  isAboutPageOpen: boolean;
   isBorderVisible: boolean;
   maxPowerOutput: ProductionPlant | [];
   filteredProductionPlants: ProductionPlant[];
@@ -29,6 +30,7 @@ interface State {
   toggleCheckedCategory: (category: ProductionPlantCategoryId) => void;
   toggleControlPanel: () => void;
   toggleStatisticsPanel: () => void;
+  toggleAboutPage: () => void;
   toggleBorderVisibility: () => void;
 }
 
@@ -40,6 +42,7 @@ export const useStore = create<State>((set) => ({
   scale: 0.5,
   isControlPanelOpen: true,
   isStatisticsPanelOpen: isDesktop,
+  isAboutPageOpen: false,
   isBorderVisible: false,
   filteredProductionPlants: [],
   maxPowerOutput: [],
@@ -96,6 +99,10 @@ export const useStore = create<State>((set) => ({
   toggleStatisticsPanel: () =>
     set((state) => ({
       isStatisticsPanelOpen: !state.isStatisticsPanelOpen,
+    })),
+  toggleAboutPage: () =>
+    set((state) => ({
+      isAboutPageOpen: !state.isAboutPageOpen,
     })),
   toggleBorderVisibility: () =>
     set((state) => ({
