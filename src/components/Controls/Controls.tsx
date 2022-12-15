@@ -27,22 +27,19 @@ export default function Controls() {
       }
     >
       <ToggleControlsButton />
-      <div className="bg-pattern-sidebar h-full overflow-y-auto p-6">
+      <div className="bg-pattern-sidebar flex h-full flex-col items-start justify-between gap-12 overflow-y-auto p-6">
         <div className="relative grid gap-12">
           <PowerRangeRadioButtons />
           <Categories />
           <ScaleSlider />
           <Settings />
-
-          <div>
-            <button
-              onClick={toggleAboutPanel}
-              className=" pr-4 text-accent-600 underline"
-            >
-              About
-            </button>
-          </div>
         </div>
+        <button
+          onClick={toggleAboutPanel}
+          className="relative rounded-xl bg-accent-900 py-3 px-4 text-sm font-medium text-accent ring-accent transition-shadow focus:outline-none focus-visible:ring-2"
+        >
+          About
+        </button>
       </div>
     </motion.aside>
   );

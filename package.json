@@ -15,10 +15,10 @@
     "@fontsource/albert-sans": "^4.5.1",
     "@headlessui/react": "^1.7.5",
     "@radix-ui/react-slider": "^1.1.0",
-    "@react-three/drei": "^9.46.4",
+    "@react-three/drei": "^9.46.7",
     "@react-three/fiber": "^8.9.1",
     "clsx": "^1.2.1",
-    "framer-motion": "^7.6.19",
+    "framer-motion": "^7.10.0",
     "gsap": "^3.11.3",
     "iconoir-react": "^5.5.2",
     "react": "18.2.0",
@@ -36,15 +36,15 @@
     "@vitejs/plugin-react": "^3.0.0",
     "autoprefixer": "^10.4.13",
     "csvtojson": "^2.0.10",
-    "cypress": "^12.0.2",
+    "cypress": "^12.1.0",
     "jsdom": "^20.0.3",
-    "postcss": "^8.4.19",
+    "postcss": "^8.4.20",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.9.4",
-    "vite": "^4.0.0",
-    "vitest": "^0.25.6"
+    "vite": "^4.0.1",
+    "vitest": "^0.25.8"
   }
 }

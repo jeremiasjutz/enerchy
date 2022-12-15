@@ -1,10 +1,14 @@
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { useStore } from "../store";
 import clsx from "clsx";
 import { Cancel } from "iconoir-react";
+import { useEventListener } from "usehooks-ts";
 
 export default function About() {
   const toggleAboutPanel = useStore((state) => state.toggleAboutPage);
+  useEventListener("keydown", (e) => {
+    if (e.key === "Escape") toggleAboutPanel();
+  });
 
   return (
     <motion.div
@@ -29,30 +33,27 @@ export default function About() {
         <h1 className="mb-6 w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl">
           About
         </h1>
-        <div className="text-lg text-gray-400 sm:text-xl">
-          <p>
-            Enerchy ist ein Projekt von Jeremias Jutz und Simon Marty, welches
-            im Rahmen eines Web-Moduls im Digital Ideation Studiengang an der
-            HSLU entstanden ist.
-          </p>
+        <p className="text-lg text-gray-400 sm:text-xl">
+          Enerchy ist ein Projekt von Jeremias Jutz und Simon Marty, welches im
+          Rahmen eines Web-Moduls im Digital Ideation Studiengang an der HSLU
+          entstanden ist.
           <br />
-          <p>
-            Wir wollen mit unser Plattform die Vielfalt von Schweizer Kraftwerke
-            und deren Eigenschaften der Bevölkerung auf spielerische Art und
-            Weise näher bringen. Mit der dreidimensionalen Darstellung der
-            Kraftwerk-Leistung entstehen Berge, welche eine neue, sonst
-            unsichtbare Landschaft bilden. Die unterschiedliche Höhe der Berge,
-            sowie die Möglichkeit nach Kraftwerk-Typ zu filtern, ermöglichen
-            einen intuitiven Vergleich der Kraftwerk-Leistung.
-          </p>
           <br />
-          <p>
-            Die Daten, welche zur Visualisierung benötigt werden, beziehen wir
-            von geo.admin.ch.
-          </p>
+          Wir wollen mit unser Plattform die Vielfalt von Schweizer Kraftwerke
+          und deren Eigenschaften der Bevölkerung auf spielerische Art und Weise
+          näher bringen. Mit der dreidimensionalen Darstellung der
+          Kraftwerk-Leistung entstehen Berge, welche eine neue, sonst
+          unsichtbare Landschaft bilden. Die unterschiedliche Höhe der Berge,
+          sowie die Möglichkeit nach Kraftwerk-Typ zu filtern, ermöglichen einen
+          intuitiven Vergleich der Kraftwerk-Leistung.
           <br />
-          <p>Als technische Grundlage wurde React mit Three.js verwendet.</p>
-        </div>
+          <br />
+          Die Daten, welche zur Visualisierung benötigt werden, beziehen wir von
+          geo.admin.ch.
+          <br />
+          <br />
+          Als technische Grundlage wurde React mit Three.js verwendet.
+        </p>
       </div>
     </motion.div>
   );
