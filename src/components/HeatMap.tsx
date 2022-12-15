@@ -29,7 +29,6 @@ const initialPosition = {
 
 export default function HeatMap({ isReady }: { isReady: boolean }) {
   const mesh = useRef<Mesh>(null);
-  const orbitControlsRef = useRef(null);
   const markerRef = useRef<Mesh>(null);
   const textRef = useRef<Group>(null);
   const isFirstRender = useRef(false);
@@ -181,7 +180,6 @@ export default function HeatMap({ isReady }: { isReady: boolean }) {
   return (
     <>
       <OrbitControls
-        ref={orbitControlsRef}
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2 - 0.25}
         minDistance={0.1}

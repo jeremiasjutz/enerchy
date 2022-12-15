@@ -11,7 +11,7 @@ export default function About() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="bg-pattern absolute inset-0 z-50 bg-black text-gray-800"
+      className="bg-pattern absolute inset-0 z-50 overflow-auto bg-black text-gray-800 sm:grid sm:place-items-center"
     >
       <button
         className={clsx(
@@ -25,8 +25,8 @@ export default function About() {
         </div>
       </button>
 
-      <div className="mx-auto h-full max-w-2xl overflow-auto p-6 sm:text-center">
-        <h1 className=" my-6 w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl">
+      <div className="max-w-2xl overflow-auto p-6">
+        <h1 className="mb-6 w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl">
           About
         </h1>
         <div className="text-lg text-gray-400 sm:text-xl">
