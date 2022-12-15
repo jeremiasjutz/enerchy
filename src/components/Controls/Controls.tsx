@@ -35,6 +35,7 @@ export default function Controls() {
           <Settings />
         </div>
         <button
+          id="toggleAboutPanelButton"
           onClick={toggleAboutPanel}
           className="relative rounded-xl bg-accent-900 py-3 px-4 text-sm font-medium text-accent ring-accent transition-shadow focus:outline-none focus-visible:ring-2"
         >

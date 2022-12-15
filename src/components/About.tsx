@@ -12,12 +12,14 @@ export default function About() {
 
   return (
     <motion.div
+      id="aboutPanel"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="bg-pattern absolute inset-0 z-50 overflow-auto bg-black text-gray-800 sm:grid sm:place-items-center"
     >
       <button
+        id="closeAboutPanelButton"
         className={clsx(
           "fixed top-0 right-0 z-10 border-gray-500 bg-gray-900",
           "rounded-bl-xl p-3 text-white focus:outline-none"
