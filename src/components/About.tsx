@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useStore } from "../store";
 import clsx from "clsx";
-import { Cancel } from "iconoir-react";
+import { Cancel, GitHub } from "iconoir-react";
 import { useEventListener } from "usehooks-ts";
 
 export default function About() {
@@ -22,7 +22,7 @@ export default function About() {
         id="closeAboutPanelButton"
         className={clsx(
           "fixed top-0 right-0 z-10 border-gray-500 bg-gray-900",
-          "rounded-bl-xl p-3 text-white focus:outline-none"
+          "rounded-bl-xl p-3 text-white ring-gray-500 transition-shadow focus:outline-none focus-visible:ring-2"
         )}
         onClick={() => toggleAboutPanel()}
       >
@@ -35,10 +35,16 @@ export default function About() {
         <h1 className="mb-6 w-full text-4xl font-extrabold tracking-[-0.035em] text-white sm:self-auto sm:text-5xl">
           About
         </h1>
-        <p className="text-lg text-gray-400 sm:text-xl">
-          Enerchy ist ein Projekt von Jeremias Jutz und Simon Marty, welches im
-          Rahmen eines Web-Moduls im Digital Ideation Studiengang an der HSLU
-          entstanden ist.
+        <p className="text-lg text-gray-300 sm:text-xl">
+          Enerchy ist ein Projekt von{" "}
+          <a
+            className="rounded-md text-accent underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
+            href="https://jeremiasjutz.ch"
+          >
+            Jeremias Jutz
+          </a>{" "}
+          und Simon Marty, welches im Rahmen eines Web-Moduls im Digital
+          Ideation Studiengang an der HSLU entstanden ist.
           <br />
           <br />
           Wir wollen mit unser Plattform die Vielfalt von Schweizer Kraftwerke
@@ -55,6 +61,15 @@ export default function About() {
           <br />
           <br />
           Als technische Grundlage wurde React mit Three.js verwendet.
+          <br />
+          <br />
+          <a
+            className="flex w-fit items-center gap-3 rounded-xl bg-accent-900 px-4 py-3 text-accent ring-accent transition-shadow focus:outline-none focus-visible:ring-2"
+            href="https://github.com/jeremiasjutz/enerchy"
+          >
+            <GitHub />
+            Github
+          </a>
         </p>
       </div>
     </motion.div>
