@@ -43,8 +43,15 @@ export default function About() {
           >
             Jeremias Jutz
           </a>{" "}
-          und Simon Marty, welches im Rahmen eines Web-Moduls im Digital
-          Ideation Studiengang an der HSLU entstanden ist.
+          und{" "}
+          <a
+            className="rounded-md text-accent underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
+            href=""
+          >
+            Simon Marty
+          </a>
+          , welches im Rahmen eines Web-Moduls im Digital Ideation Studiengang
+          an der HSLU entstanden ist.
           <br />
           <br />
           Wir wollen mit unser Plattform die Vielfalt von Schweizer Kraftwerke
