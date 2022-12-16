@@ -39,14 +39,14 @@ export default function About() {
           Enerchy ist ein Projekt von{" "}
           <a
             className="rounded-md text-accent underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
-            href="https://jeremiasjutz.ch"
+            href="https://www.jeremiasjutz.ch/"
           >
             Jeremias Jutz
           </a>{" "}
           und{" "}
           <a
             className="rounded-md text-accent underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
-            href=""
+            href="https://www.linkedin.com/in/marty-simon/"
           >
             Simon Marty
           </a>
